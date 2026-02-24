@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankalp Phadnis</title>
+    <meta name="description" content="Product manager turned founder. Building AI agents and fintech infrastructure.">
+    <meta property="og:title" content="Sankalp Phadnis">
+    <meta property="og:description" content="Product manager turned founder. Building AI agents and fintech infrastructure.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        /* ── Name ── */
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        /* ── Bio text ── */
+        .bio {
+            color: #4a4a4a;
+            max-width: 440px;
+        }
+
+        /* ── Links ── */
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        /* ── Dividers ── */
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        /* ── Section labels ── */
+        .label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #9a9590;
+            margin-bottom: 20px;
+        }
+
+        /* ── Experience (expandable) ── */
+        .exp {
+            margin-bottom: 4px;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .exp-header:hover {
+            opacity: 0.55;
+        }
+
+        .exp-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .exp-role {
+            color: #6b6b6b;
+            font-size: 0.85rem;
+        }
+
+        .exp-right {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .exp-date {
+            color: #9a9590;
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .exp-toggle {
+            color: #c0bbb7;
+            font-size: 0.75rem;
+            width: 14px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .exp.open .exp-toggle {
+            transform: rotate(45deg);
+        }
+
+        .exp-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .exp.open .exp-body {
+            grid-template-rows: 1fr;
+        }
+
+        .exp-body-inner {
+            overflow: hidden;
+        }
+
+        .exp-details {
+            padding: 4px 0 12px;
+            list-style: none;
+        }
+
+        .exp-details li {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            padding: 2px 0 2px 14px;
+            position: relative;
+        }
+
+        .exp-details li::before {
+            content: '·';
+            position: absolute;
+            left: 2px;
+            color: #c0bbb7;
+        }
+
+        .exp-details li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .exp-details li a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .detail-link {
+            color: #9a9590 !important;
+            font-size: 0.75rem;
+            margin-left: 6px;
+        }
+
+        .detail-link:hover {
+            color: #6b6b6b !important;
+            border-bottom-color: #6b6b6b !important;
+        }
+
+        /* ── Projects ── */
+        .proj {
+            margin-bottom: 8px;
+        }
+
+        .proj-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .proj-name a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-name a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .proj-desc {
+            color: #7a7a7a;
+            font-size: 0.82rem;
+        }
+
+        /* ── Education ── */
+        .edu {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            padding: 2px 0;
+        }
+
+        .edu-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .edu-detail {
+            color: #7a7a7a;
+            font-size: 0.85rem;
+        }
+
+        .edu-date {
+            color: #9a9590;
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .exp-header {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .exp-right {
+                gap: 8px;
+            }
+
+            .edu {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .edu-date {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Sankalp Phadnis</h1>
+
+        <div class="links">
+            <a href="https://github.com/sanky3008" target="_blank" rel="noopener">github</a>
+            <a href="https://www.linkedin.com/in/sankalpphadnis/" target="_blank" rel="noopener">linkedin</a>
+            <a href="https://twitter.com/sanky3008" target="_blank" rel="noopener">x</a>
+            <a href="mailto:phadnis.sankalp691@gmail.com">email</a>
+        </div>
+
+        <hr>
+
+        <p class="label">now</p>
+        <p class="bio">
+            Exploring — looking for my next role.<br>
+            Building Lemma as a pet project — an AI-native PRD workspace.<br>
+            OMSCS at Georgia Tech. 4.0 GPA.
+        </p>
+
+        <hr>
+
+        <p class="label">experience</p>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">Startup</span>
+                    <span class="exp-role"> · Founder & CEO</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2025–</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>Building <a href="https://writelemma.com" target="_blank" rel="noopener">Lemma</a>, an AI-native PRD workspace for product managers</li>
+                        <li>Built <a href="https://www.zarie.chat" target="_blank" rel="noopener">Zarie</a>, an AI life management assistant <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener" class="detail-link">github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">Groww</span>
+                    <span class="exp-role"> · Product Manager</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2021–2025</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>Grew MTF loan book 11x to ₹883Cr in 7 months</li>
+                        <li>Launched Bill Payments to 500K+ users with NPS 48</li>
+                        <li>Scaled bulk payouts to 1L withdrawals/day, 75% latency reduction</li>
+                        <li>Revamped mutual fund cash flows for SEBI non-pooling compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">TU Munich</span>
+                    <span class="exp-role"> · Research Intern</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2020</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>Optimised attachment points for cable-driven robotic arms using particle swarm optimisation</li>
+                        <li>Achieved 67% workspace coverage with novel scoring algorithm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">Siemens</span>
+                    <span class="exp-role"> · R&D Intern</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2020</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>Built client-facing insights tool for optimal milling strategy selection</li>
+                        <li>Developed real-time damage plotter with 95% confidence tool-life prediction</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <p class="label">projects</p>
+
+        <div class="proj">
+            <span class="proj-name"><a href="https://apps.apple.com/us/app/today-focused-task-manager/id6744840789" target="_blank" rel="noopener">Today</a></span>
+            <span class="proj-desc"> — Minimalist task manager · App Store</span>
+        </div>
+        <div class="proj">
+            <span class="proj-name">ComplianceGPT</span>
+            <span class="proj-desc"> — RAG-based legal chatbot for fintech · internal at Groww</span>
+        </div>
+
+        <hr>
+
+        <p class="label">education</p>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">Georgia Tech</span>
+                    <span class="exp-role"> — OMSCS · 4.0</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2025–</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>CS 7643 — Deep Learning</li>
+                        <li>CS 7641 — Machine Learning</li>
+                        <li>CS 7646 — ML for Trading</li>
+                        <li>CS 6200 — Operating Systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="edu">
+            <div>
+                <span class="edu-name">IIT Madras</span>
+                <span class="edu-detail"> — BTech + MTech · 8.8</span>
+            </div>
+            <span class="edu-date">2016–2021</span>
+        </div>
+        <div class="edu">
+            <div>
+                <span class="edu-name">TU Munich</span>
+                <span class="edu-detail"> — Exchange</span>
+            </div>
+            <span class="edu-date">2019–2020</span>
+        </div>
+    </main>
+
+    <script>
+        function toggle(header) {
+            const exp = header.parentElement;
+            const wasOpen = exp.classList.contains('open');
+
+            document.querySelectorAll('.exp.open').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            if (!wasOpen) {
+                exp.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
