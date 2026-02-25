@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="index, follow" />
   <title>Sankalp Phadnis | Resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -75,6 +75,11 @@
     .contact a {
       color: #5a5a5a;
       text-decoration: none;
+      border-bottom: 1px dotted #b0aaa6;
+    }
+
+    .contact a:hover {
+      border-bottom-color: #5a5a5a;
     }
 
     .contact .sep {
@@ -128,7 +133,7 @@
     }
 
     .entry-context {
-      font-size: 7.6pt;
+      font-size: 8pt;
       color: #7a7a7a;
       font-style: italic;
       margin-bottom: 2pt;
@@ -151,6 +156,16 @@
       font-weight: 700;
     }
 
+    li a {
+      color: #2a2a2a;
+      text-decoration: none;
+      border-bottom: 1px dotted #b0aaa6;
+    }
+
+    li a:hover {
+      border-bottom-color: #2a2a2a;
+    }
+
     /* ── sub-roles ── */
     .sub-role {
       margin-bottom: 8pt;
@@ -168,7 +183,7 @@
     }
 
     .sub-role-title {
-      font-size: 8.2pt;
+      font-size: 8.6pt;
       font-weight: 500;
       color: #3a3a3a;
     }
@@ -176,11 +191,25 @@
     .sub-role-title a {
       color: #3a3a3a;
       text-decoration: none;
-      border-bottom: 0.5pt solid #b0aaa6;
+      border-bottom: 1px dotted #b0aaa6;
+    }
+
+    .sub-role-title a:hover {
+      border-bottom-color: #3a3a3a;
+    }
+
+    .project-name a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dotted #b0aaa6;
+    }
+
+    .project-name a:hover {
+      border-bottom-color: #3a3a3a;
     }
 
     .role-label {
-      font-size: 7pt;
+      font-size: 8.6pt;
       font-weight: 400;
       color: #8a8a8a;
       margin-left: 4pt;
@@ -211,7 +240,7 @@
     }
 
     .edu-detail {
-      font-size: 8pt;
+      font-size: 8.6pt;
       color: #4a4a4a;
     }
 
@@ -252,7 +281,7 @@
     }
 
     .project-desc {
-      font-size: 8pt;
+      font-size: 8.6pt;
       color: #4a4a4a;
     }
 
@@ -266,7 +295,7 @@
       display: grid;
       grid-template-columns: 60pt 1fr;
       gap: 6pt 8pt;
-      font-size: 8pt;
+      font-size: 8.6pt;
     }
 
     .skill-label {
@@ -351,7 +380,7 @@
 
         <div class="sub-role">
           <div class="sub-role-header">
-            <div class="sub-role-title"><a href="https://writelemma.com" target="_blank" rel="noopener">Lemma</a> <span class="role-label">Founder</span></div>
+            <div class="sub-role-title">Founder, <a href="https://writelemma.com" target="_blank" rel="noopener">Lemma</a></div>
             <div class="sub-role-meta">Jan 2026 – Present</div>
           </div>
           <ul>
@@ -362,7 +391,7 @@
 
         <div class="sub-role">
           <div class="sub-role-header">
-            <div class="sub-role-title"><a href="https://www.zarie.chat" target="_blank" rel="noopener">Zarie</a> <span class="role-label">Co-founder</span></div>
+            <div class="sub-role-title">Co-founder, <a href="https://www.zarie.chat" target="_blank" rel="noopener">Zarie</a></div>
             <div class="sub-role-meta">Sep 2025 – Jan 2026</div>
           </div>
           <ul>
@@ -423,6 +452,7 @@
         </div>
         <ul>
           <li>Novel scoring algorithm for cable-driven robotic arm optimization, achieved <span class="metric">67% workspace coverage</span></li>
+          <li><a href="https://drive.google.com/file/d/1zXd-erU_LNKUx-yNIPA3uxnleaNuSlXg/view" target="_blank" rel="noopener">Reference letter</a> from Dr. Markus Zimmermann, Head, Lab of Product Development and Lightweight Design</li>
         </ul>
       </div>
 
@@ -457,13 +487,6 @@
         <div class="edu-meta">2016 – 2021 · <span class="edu-gpa">8.8 / 10</span></div>
       </div>
 
-      <div class="edu-entry">
-        <div>
-          <span class="edu-school">Technical University of Munich</span>
-          <span class="edu-detail">, Semester Exchange, Robotics Research</span>
-        </div>
-        <div class="edu-meta">2019 – 2020</div>
-      </div>
     </div>
 
     <!-- projects -->
@@ -471,7 +494,7 @@
       <div class="section-title">Projects</div>
 
       <div class="project">
-        <span class="project-name">Today</span>
+        <span class="project-name"><a href="https://apps.apple.com/us/app/today-focused-task-manager/id6744840789" target="_blank" rel="noopener">Today</a></span>
         <span class="project-desc">: Minimalist task manager published on App Store</span>
         <span class="project-tech"> · Expo React Native, TypeScript</span>
       </div>
@@ -483,7 +506,7 @@
       </div>
 
       <div class="project">
-        <span class="project-name">Hackcraft '23</span>
+        <span class="project-name"><a href="https://www.youtube.com/watch?v=-Xxp_50SeEU" target="_blank" rel="noopener">Hackcraft '23</a></span>
         <span class="project-desc">: AI conversational payments prototype, won Best UI among 47 teams</span>
         <span class="project-tech"> · Python, Figma</span>
       </div>
@@ -494,11 +517,11 @@
       <div class="section-title">Skills</div>
       <div class="skills-grid">
         <div class="skill-label">Product</div>
-        <div class="skill-list">Product Strategy, User Research, Stakeholder Management, Agile, Competitive Analysis, MVP Scoping</div>
+        <div class="skill-list">Product Strategy, User Research, Stakeholder Management, Competitive Analysis, MVP Scoping</div>
         <div class="skill-label">Technical</div>
         <div class="skill-list">Python, TypeScript, SQL, React, Next.js, FastAPI, React Native, PostgreSQL, Docker</div>
         <div class="skill-label">AI / ML</div>
-        <div class="skill-list">PyTorch, RAG, LangGraph, Reinforcement Learning, NLP, Deep Learning, Quantitative Finance</div>
+        <div class="skill-list">PyTorch, RAG, LangGraph, Reinforcement Learning, NLP, Deep Learning</div>
       </div>
     </div>
 
