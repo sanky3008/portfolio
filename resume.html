@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Sankalp Phadnis | Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: 210mm 297mm;
+      margin: 0;
+    }
+
+    html {
+      width: 210mm;
+      height: 297mm;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #e2deda;
+      color: #1a1a1a;
+      font-size: 8.6pt;
+      line-height: 1.55;
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 18mm 20mm 14mm 20mm;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── header ── */
+    .header {
+      margin-bottom: 14pt;
+    }
+
+    .name {
+      font-size: 18pt;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 6pt;
+    }
+
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4pt 8pt;
+      font-size: 7.4pt;
+      color: #5a5a5a;
+    }
+
+    .contact a {
+      color: #5a5a5a;
+      text-decoration: none;
+    }
+
+    .contact .sep {
+      color: #b0aaa6;
+    }
+
+    /* ── section ── */
+    .section {
+      margin-bottom: 16pt;
+    }
+
+    .section-title {
+      font-size: 7pt;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9a9590;
+      margin-bottom: 6pt;
+      padding-bottom: 2pt;
+      border-bottom: 0.5pt solid #c0bbb7;
+    }
+
+    /* ── experience ── */
+    .entry {
+      margin-bottom: 12pt;
+    }
+
+    .entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5pt;
+    }
+
+    .entry-title {
+      font-size: 9pt;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .entry-meta {
+      font-size: 7.6pt;
+      color: #4a4a4a;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .entry-context {
+      font-size: 7.6pt;
+      color: #7a7a7a;
+      font-style: italic;
+      margin-bottom: 2pt;
+    }
+
+    ul {
+      padding-left: 12pt;
+    }
+
+    li {
+      margin-bottom: 2pt;
+      color: #2a2a2a;
+    }
+
+    li::marker {
+      color: #b0aaa6;
+    }
+
+    .metric {
+      font-weight: 700;
+    }
+
+    /* ── sub-roles ── */
+    .sub-role {
+      margin-bottom: 8pt;
+    }
+
+    .sub-role:last-child {
+      margin-bottom: 0;
+    }
+
+    .sub-role-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5pt;
+    }
+
+    .sub-role-title {
+      font-size: 8.2pt;
+      font-weight: 500;
+      color: #3a3a3a;
+    }
+
+    .sub-role-title a {
+      color: #3a3a3a;
+      text-decoration: none;
+      border-bottom: 0.5pt solid #b0aaa6;
+    }
+
+    .role-label {
+      font-size: 7pt;
+      font-weight: 400;
+      color: #8a8a8a;
+      margin-left: 4pt;
+    }
+
+    .sub-role-meta {
+      font-size: 7.4pt;
+      color: #8a8a8a;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* ── education ── */
+    .edu-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5pt;
+    }
+
+    .edu-entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .edu-school {
+      font-size: 8.6pt;
+      font-weight: 500;
+    }
+
+    .edu-detail {
+      font-size: 8pt;
+      color: #4a4a4a;
+    }
+
+    .edu-meta {
+      font-size: 7.6pt;
+      color: #7a7a7a;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .edu-gpa {
+      font-weight: 700;
+      color: #1a1a1a;
+      font-size: 8pt;
+    }
+
+    .edu-courses {
+      font-size: 7.6pt;
+      color: #6a6a6a;
+      margin-top: 1pt;
+      margin-bottom: 3pt;
+      padding-left: 1pt;
+    }
+
+    /* ── projects ── */
+    .project {
+      margin-bottom: 6pt;
+    }
+
+    .project:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-name {
+      font-weight: 500;
+      font-size: 8.6pt;
+    }
+
+    .project-desc {
+      font-size: 8pt;
+      color: #4a4a4a;
+    }
+
+    .project-tech {
+      font-size: 7.2pt;
+      color: #8a8a8a;
+    }
+
+    /* ── skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 60pt 1fr;
+      gap: 6pt 8pt;
+      font-size: 8pt;
+    }
+
+    .skill-label {
+      font-weight: 500;
+      color: #5a5a5a;
+      font-size: 7.4pt;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-top: 0.5pt;
+    }
+
+    .skill-list {
+      color: #3a3a3a;
+    }
+
+    /* ── print ── */
+    @media print {
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    /* ── screen preview helpers ── */
+    @media screen {
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        height: auto;
+        overflow: auto;
+        padding: 20px 0;
+        background: #c0bbb7;
+      }
+
+      .page {
+        background: #e2deda;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- header -->
+    <div class="header">
+      <div class="name">Sankalp Phadnis</div>
+      <div class="contact">
+        <span>+91 7758989892</span>
+        <span class="sep">&#183;</span>
+        <a href="mailto:phadnis.sankalp691@gmail.com">phadnis.sankalp691@gmail.com</a>
+        <span class="sep">&#183;</span>
+        <a href="https://linkedin.com/in/sankalpphadnis">LinkedIn</a>
+        <span class="sep">&#183;</span>
+        <a href="https://github.com/sanky3008">GitHub</a>
+        <span class="sep">&#183;</span>
+        <a href="https://sankalpphadnis.com">sankalpphadnis.com</a>
+      </div>
+    </div>
+
+    <!-- experience -->
+    <div class="section">
+      <div class="section-title">Experience</div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Startup</div>
+          <div class="entry-meta">Sep 2025 – Present</div>
+        </div>
+
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title"><a href="https://writelemma.com" target="_blank" rel="noopener">Lemma</a> <span class="role-label">Founder</span></div>
+            <div class="sub-role-meta">Jan 2026 – Present</div>
+          </div>
+          <ul>
+            <li>Built a cursor for PRDs with context-aware AI, research agents, and diagram generation</li>
+            <li>In beta with <span class="metric">8 users</span> and <span class="metric">42 docs</span> created</li>
+          </ul>
+        </div>
+
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title"><a href="https://www.zarie.chat" target="_blank" rel="noopener">Zarie</a> <span class="role-label">Co-founder</span></div>
+            <div class="sub-role-meta">Sep 2025 – Jan 2026</div>
+          </div>
+          <ul>
+            <li>Led Product & Tech at Zarie, a general-purpose AI life assistant; scaled to <span class="metric">100 users</span></li>
+            <li>Built multi-agent architecture enabling smart reminders and time-based workflows on Telegram & Slack</li>
+            <li>Created <span class="metric">Poirot</span>, an in-house chat trace observability platform to make Zarie reliable</li>
+            <li>Analyzed user behavior, identified weak retention signals; made disciplined decision to pause pre-PMF</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Groww</div>
+          <div class="entry-meta">Jul 2021 – Sep 2025</div>
+        </div>
+        <div class="entry-context">India's largest stock broker · 14M+ active users · IPO'd Nov 2025 at ~$9B market cap · backed by Peak XV, YC, Ribbit Capital</div>
+
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title">Product Manager II, Margin Trading Facility</div>
+            <div class="sub-role-meta">Mar 2024 – Sep 2025</div>
+          </div>
+          <ul>
+            <li>Led MTF from early stage to PMF, grew gross loan book <span class="metric">11x from ₹80Cr to ₹883Cr</span> in 7 months</li>
+            <li>Increased active users by <span class="metric">600%</span> and new transacting users by <span class="metric">3x</span> via growth roadmap</li>
+            <li>Improved NPS from <span class="metric">-17 to +5</span> by building loan ledger visibility for borrowers</li>
+          </ul>
+        </div>
+
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title">APM II → PM I, Core Bill Payments (BBPS)</div>
+            <div class="sub-role-meta">Jul 2022 – Mar 2024</div>
+          </div>
+          <ul>
+            <li>Launched bill payments platform from 0→1; <span class="metric">500K+ users, NPS 48</span> within 5 months</li>
+            <li>Boosted M3 retention by <span class="metric">38%</span>, cut duplicate reminders by <span class="metric">85%</span></li>
+            <li>Ran SMS-based auto-bill pilot improving active-to-transacting conversion by <span class="metric">41%</span></li>
+          </ul>
+        </div>
+
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title">APM I, Payments Platform</div>
+            <div class="sub-role-meta">Jul 2021 – Jul 2022</div>
+          </div>
+          <ul>
+            <li>Scaled ICICI bulk payouts to <span class="metric">1L withdrawals/day</span> with <span class="metric">75% latency reduction</span>; revamped MF flows for SEBI compliance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">TU Munich, Research Intern</div>
+          <div class="entry-meta">Jan 2020 – Jul 2020</div>
+        </div>
+        <ul>
+          <li>Novel scoring algorithm for cable-driven robotic arm optimization, achieved <span class="metric">67% workspace coverage</span></li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Siemens Technology, R&D Intern</div>
+          <div class="entry-meta">Mar 2020 – Jul 2020</div>
+        </div>
+        <ul>
+          <li>Built insights tool for milling strategy optimization with <span class="metric">95% confidence</span> tool-life prediction</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- education -->
+    <div class="section">
+      <div class="section-title">Education</div>
+
+      <div class="edu-entry">
+        <div>
+          <span class="edu-school">Georgia Institute of Technology</span>
+          <span class="edu-detail">, MS Computer Science (OMSCS)</span>
+        </div>
+        <div class="edu-meta">2025 – Present · <span class="edu-gpa">4.0 GPA</span></div>
+      </div>
+
+      <div class="edu-entry">
+        <div>
+          <span class="edu-school">IIT Madras</span>
+          <span class="edu-detail">, BTech + MTech (Dual Degree), Engineering Design</span>
+        </div>
+        <div class="edu-meta">2016 – 2021 · <span class="edu-gpa">8.8 / 10</span></div>
+      </div>
+
+      <div class="edu-entry">
+        <div>
+          <span class="edu-school">Technical University of Munich</span>
+          <span class="edu-detail">, Semester Exchange, Robotics Research</span>
+        </div>
+        <div class="edu-meta">2019 – 2020</div>
+      </div>
+    </div>
+
+    <!-- projects -->
+    <div class="section">
+      <div class="section-title">Projects</div>
+
+      <div class="project">
+        <span class="project-name">Today</span>
+        <span class="project-desc">: Minimalist task manager published on App Store</span>
+        <span class="project-tech"> · Expo React Native, TypeScript</span>
+      </div>
+
+      <div class="project">
+        <span class="project-name">ComplianceGPT</span>
+        <span class="project-desc">: RAG-based legal chatbot trained on 15GB of fintech circulars</span>
+        <span class="project-tech"> · LangChain, Python</span>
+      </div>
+
+      <div class="project">
+        <span class="project-name">Hackcraft '23</span>
+        <span class="project-desc">: AI conversational payments prototype, won Best UI among 47 teams</span>
+        <span class="project-tech"> · Python, Figma</span>
+      </div>
+    </div>
+
+    <!-- skills -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-label">Product</div>
+        <div class="skill-list">Product Strategy, User Research, Stakeholder Management, Agile, Competitive Analysis, MVP Scoping</div>
+        <div class="skill-label">Technical</div>
+        <div class="skill-list">Python, TypeScript, SQL, React, Next.js, FastAPI, React Native, PostgreSQL, Docker</div>
+        <div class="skill-label">AI / ML</div>
+        <div class="skill-list">PyTorch, RAG, LangGraph, Reinforcement Learning, NLP, Deep Learning, Quantitative Finance</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
