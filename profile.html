@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sankalp phadnis · profile</title>
+    <meta name="description" content="sankalp phadnis — experience, projects, and education.">
+    <meta property="og:title" content="sankalp phadnis · profile">
+    <meta property="og:description" content="sankalp phadnis — experience, projects, and education.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #9a9590;
+            margin-bottom: 20px;
+        }
+
+        .exp {
+            margin-bottom: 4px;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .exp-header:hover {
+            opacity: 0.55;
+        }
+
+        .exp-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .exp-role {
+            color: #6b6b6b;
+            font-size: 0.85rem;
+        }
+
+        .exp-right {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .exp-date {
+            color: #9a9590;
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .exp-toggle {
+            color: #8a8580;
+            font-size: 0.85rem;
+            font-weight: 500;
+            width: 16px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .exp.open .exp-toggle {
+            transform: rotate(45deg);
+        }
+
+        .exp-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .exp.open .exp-body {
+            grid-template-rows: 1fr;
+        }
+
+        .exp-body-inner {
+            overflow: hidden;
+        }
+
+        .exp-details {
+            padding: 4px 0 12px;
+            list-style: none;
+        }
+
+        .exp-details li {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            padding: 2px 0 2px 14px;
+            position: relative;
+        }
+
+        .exp-details li::before {
+            content: '·';
+            position: absolute;
+            left: 2px;
+            color: #c0bbb7;
+        }
+
+        .exp-details li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .exp-details li a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .detail-link {
+            color: #9a9590 !important;
+            font-size: 0.75rem;
+            margin-left: 6px;
+        }
+
+        .detail-link:hover {
+            color: #6b6b6b !important;
+            border-bottom-color: #6b6b6b !important;
+        }
+
+        .proj {
+            margin-bottom: 8px;
+        }
+
+        .proj-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .proj-name a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-name a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .proj-desc {
+            color: #7a7a7a;
+            font-size: 0.82rem;
+        }
+
+        .proj-desc a {
+            color: #7a7a7a;
+            text-decoration: none;
+            border-bottom: 1px solid #c0bbb7;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-desc a:hover {
+            border-bottom-color: #7a7a7a;
+        }
+
+        .edu {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            padding: 2px 0;
+        }
+
+        .edu-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .edu-detail {
+            color: #7a7a7a;
+            font-size: 0.85rem;
+        }
+
+        .edu-date {
+            color: #9a9590;
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .exp-header {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .exp-right {
+                gap: 8px;
+            }
+
+            .edu {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .edu-date {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="/">home</a>
+            <a href="writing.html">writing</a>
+            <a href="profile.html" class="active">profile</a>
+        </div>
+
+        <hr>
+
+        <p class="label">experience</p>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">startup</span>
+                    <span class="exp-role"> · founder & ceo</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2025–</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>building <a href="https://writelemma.com" target="_blank" rel="noopener">lemma</a>, an ai-native prd workspace for product managers</li>
+                        <li>built <a href="https://www.zarie.chat" target="_blank" rel="noopener">zarie</a>, an ai life management assistant <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener" class="detail-link">github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">groww</span>
+                    <span class="exp-role"> · product manager</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2021–2025</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>grew mtf loan book 11x to ₹883cr in 7 months</li>
+                        <li>launched bill payments to 500k+ users with nps 48</li>
+                        <li>scaled bulk payouts to 1l withdrawals/day, 75% latency reduction</li>
+                        <li>revamped mutual fund cash flows for sebi non-pooling compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">tu munich</span>
+                    <span class="exp-role"> · research intern</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2020</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>optimised attachment points for cable-driven robotic arms using particle swarm optimisation</li>
+                        <li>achieved 67% workspace coverage with novel scoring algorithm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">siemens</span>
+                    <span class="exp-role"> · r&d intern</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2020</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>built client-facing insights tool for optimal milling strategy selection</li>
+                        <li>developed real-time damage plotter with 95% confidence tool-life prediction</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <p class="label">projects</p>
+
+        <div class="proj">
+            <span class="proj-name"><a href="https://apps.apple.com/us/app/today-focused-task-manager/id6744840789" target="_blank" rel="noopener">today</a></span>
+            <span class="proj-desc"> · minimalist task manager · app store</span>
+        </div>
+        <div class="proj">
+            <span class="proj-name">compliancegpt</span>
+            <span class="proj-desc"> · rag-based legal chatbot for fintech · internal at groww</span>
+        </div>
+        <div class="proj">
+            <span class="proj-name"><a href="https://www.youtube.com/watch?v=-Xxp_50SeEU" target="_blank" rel="noopener">hackcraft '23</a></span>
+            <span class="proj-desc"> · ai conversational payments prototype · won best ui among 47 teams</span>
+        </div>
+
+        <hr>
+
+        <p class="label">course projects</p>
+
+        <div class="proj">
+            <span class="proj-name">mini recursive models</span>
+            <span class="proj-desc"> · reimplemented <a href="https://arxiv.org/abs/2510.04871" target="_blank" rel="noopener">trm</a> from scratch, 60+ ablation experiments on sudoku reasoning · 94.4% accuracy · cs 7643</span>
+        </div>
+
+        <hr>
+
+        <p class="label">education</p>
+
+        <div class="exp">
+            <div class="exp-header" onclick="toggle(this)">
+                <div>
+                    <span class="exp-name">georgia tech</span>
+                    <span class="exp-role"> · omscs · 4.0</span>
+                </div>
+                <div class="exp-right">
+                    <span class="exp-date">2025–</span>
+                    <span class="exp-toggle">+</span>
+                </div>
+            </div>
+            <div class="exp-body">
+                <div class="exp-body-inner">
+                    <ul class="exp-details">
+                        <li>cs 7643 · deep learning</li>
+                        <li>cs 7641 · machine learning</li>
+                        <li>cs 7646 · ml for trading</li>
+                        <li>cs 6200 · operating systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="edu">
+            <div>
+                <span class="edu-name">iit madras</span>
+                <span class="edu-detail"> · btech + mtech · 8.8</span>
+            </div>
+            <span class="edu-date">2016–2021</span>
+        </div>
+        <div class="edu">
+            <div>
+                <span class="edu-name">tu munich</span>
+                <span class="edu-detail"> · exchange</span>
+            </div>
+            <span class="edu-date">2019–2020</span>
+        </div>
+
+        <hr>
+
+        <p class="label">archive</p>
+
+        <div class="proj">
+            <span class="proj-name"><a href="https://github.com/sanky3008/dynamic-todo" target="_blank" rel="noopener">dynamic-todo</a></span>
+            <span class="proj-desc"> · expo react native task manager · archived (app store issues)</span>
+        </div>
+        <div class="proj">
+            <span class="proj-name"><a href="https://github.com/sanky3008/zarie-workers" target="_blank" rel="noopener">zarie-workers</a></span>
+            <span class="proj-desc"> · ai workflow builder with sandboxed code execution · archived (poor ux)</span>
+        </div>
+
+        <footer style="margin-top: 80px; color: #c0bbb7; font-size: 0.7rem;">
+            built with mass vibe-coding by claude
+        </footer>
+    </main>
+
+    <script>
+        function toggle(header) {
+            const exp = header.parentElement;
+            const wasOpen = exp.classList.contains('open');
+
+            document.querySelectorAll('.exp.open').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            if (!wasOpen) {
+                exp.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
