@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>why ai models won't commoditize like hardware · sankalp phadnis</title>
+    <meta name="description" content="model commoditization may be slower than hardware commoditization because of trust asymmetry. choosing a model is more like choosing a doctor than choosing RAM.">
+    <link rel="canonical" href="https://sankalpphadnis.com/writing/model-commoditization.html">
+    <meta property="og:title" content="why ai models won't commoditize like hardware · sankalp phadnis">
+    <meta property="og:description" content="model commoditization may be slower than hardware commoditization because of trust asymmetry. choosing a model is more like choosing a doctor than choosing RAM.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sankalpphadnis.com/writing/model-commoditization.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="why ai models won't commoditize like hardware · sankalp phadnis">
+    <meta name="twitter:description" content="model commoditization may be slower than hardware commoditization because of trust asymmetry. choosing a model is more like choosing a doctor than choosing RAM.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "why ai models won't commoditize like hardware",
+        "description": "model commoditization may be slower than hardware commoditization because of trust asymmetry. choosing a model is more like choosing a doctor than choosing RAM.",
+        "author": {
+            "@type": "Person",
+            "name": "Sankalp Phadnis",
+            "url": "https://sankalpphadnis.com"
+        }
+    }
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .post-title {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .post-body p {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
+        .post-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .post-body img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 1px solid #d0cbc7;
+        }
+
+        .post-body .img-caption {
+            color: #9a9590;
+            font-size: 0.72rem;
+            margin-top: -12px;
+            margin-bottom: 16px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #9a9590;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #9a9590;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="../">home</a>
+            <a href="../writing.html" class="active">writing</a>
+            <a href="../profile.html">profile</a>
+            <a href="../contact.html">contact</a>
+        </div>
+
+        <hr>
+
+        <div class="post-title">why ai models won't commoditize like hardware</div>
+
+        <div class="post-body">
+            <p>there's a popular argument that ai models will commoditize the way hardware did. ram, cpus, storage: they all became interchangeable once they crossed a performance threshold. the thinking goes that models will follow the same path. as open&#8209;source catches up and prices drop, the frontier providers will lose their edge.</p>
+
+            <p>i think this is wrong, or at least, much slower than people expect. the reason comes down to a fundamental asymmetry in how trust works.</p>
+
+            <p>with ram, quality is binary and verifiable. the program either runs or it doesn't. you can objectively confirm that 4gb is enough for your workload. so once a component crosses the "good enough" threshold, you stop caring who made it. price wins.</p>
+
+            <p>with ai models, quality is subjective, inconsistent, and hard to verify. you often can't tell if a smaller model gave you a subtly wrong answer. a flawed analysis looks the same as a good one until the decision it informed blows up. buggy code compiles and runs fine until an edge case breaks production. the cost of being wrong is higher than the cost of "overpaying" in compute by using a bigger model.</p>
+
+            <p>this is more like choosing a doctor than choosing ram. you go to the best doctor even for a routine checkup, because you trust their judgment and you can't always tell when a routine issue is actually serious. the trust premium persists even when the objective capability gap narrows.</p>
+
+            <p>to be clear: the trust premium isn't the whole story. frontier models are genuinely better, and users can often feel the difference. anyone who has used claude and gpt side by side for a coding task can tell that one is sharper. and even within a single provider, there are real capability gaps: opus can handle problems that sonnet simply cannot. the frontier isn't just a brand. it delivers real, perceptible quality.</p>
+
+            <p>but here's the thing: the trust effect and the quality effect reinforce each other. even when the objective gap shrinks to the point where a cheaper model could handle your task, you still can't confidently identify which tasks those are. so you default to the best. the real quality advantage builds the trust, and the trust persists even into the zones where the gap has narrowed. that's what makes this dynamic so durable.</p>
+
+            <p><a href="https://menlovc.com/perspective/2025-mid-year-llm-market-update/" target="_blank" style="color: #6b6b6b; text-decoration: underline; text-underline-offset: 2px;">menlo ventures' 2025 mid&#8209;year llm report</a> has data that supports this. 66% of enterprise builders upgraded models within their existing provider. only 11% switched vendors entirely. the rest made no changes at all. trust is sticky, and switching is rare.</p>
+
+            <img src="menlo-switching-patterns.png" alt="enterprise model switching patterns: 66% upgraded within vendor, 23% made no changes, 11% switched vendors">
+            <p class="img-caption">source: menlo ventures, 2025 mid&#8209;year llm market update</p>
+
+            <p>even more telling: when new frontier models launch, builders don't pocket the savings from cheaper older models. they move en masse to the latest, most capable option. within one month of claude 4's release, claude 4 sonnet captured 45% of anthropic's usage while sonnet 3.5 dropped from 83% to 16%. performance hunger, not price sensitivity, drives behavior.</p>
+
+            <img src="menlo-frontier-models.png" alt="builders choose frontier models: claude 4 sonnet captured 45% share within one month of release">
+            <p class="img-caption">source: menlo ventures, 2025 mid&#8209;year llm market update</p>
+
+            <p>and this pattern holds even as prices fall dramatically. model costs have dropped roughly 10x year over year, but builders don't capture those savings by downgrading. they just keep upgrading to the best available model at whatever it costs.</p>
+
+            <img src="menlo-cost-decreases.png" alt="builders pay to stay on the frontier despite 10x annual cost decreases">
+            <p class="img-caption">source: menlo ventures, 2025 mid&#8209;year llm market update</p>
+
+            <p>there's one more nuance worth calling out. commoditization will likely happen unevenly across use cases. for structured, narrow tasks like classification or data extraction, cheaper models may well become "good enough" faster, because the output is easier to verify. but for open&#8209;ended reasoning, strategy, analysis, and creative work, where verification is essentially impossible, the trust premium will persist much longer.</p>
+
+            <p>none of this means models will never commoditize. they probably will, eventually. but the timeline will be longer than hardware commoditization patterns suggest. trust is hard to build and slow to transfer. verification is expensive and unreliable. and the cost of a subtly wrong answer in a high&#8209;stakes context far exceeds the cost of paying more for a frontier model.</p>
+
+            <p>frontier models like opus and gpt&#8209;5 may retain pricing power and user loyalty for longer than most people expect. not because they're always meaningfully better, but because when they are better, it matters a lot, and their users can never be quite sure when they aren't.</p>
+        </div>
+
+        <a href="../writing.html" class="back-link">back to writing</a>
+
+        <footer style="margin-top: 80px; color: #c0bbb7; font-size: 0.7rem;">
+            built with mass vibe-coding by claude
+        </footer>
+    </main>
+</body>
+</html>
