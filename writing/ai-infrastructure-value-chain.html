@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the ai infrastructure value chain · sankalp phadnis</title>
+    <meta name="description" content="an interactive map of the companies and technologies powering the ai stack, from data and compute through model training, inference, and applications.">
+    <link rel="canonical" href="https://sankalpphadnis.com/writing/ai-infrastructure-value-chain.html">
+    <meta property="og:title" content="the ai infrastructure value chain · sankalp phadnis">
+    <meta property="og:description" content="an interactive map of the companies and technologies powering the ai stack.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sankalpphadnis.com/writing/ai-infrastructure-value-chain.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="the ai infrastructure value chain · sankalp phadnis">
+    <meta name="twitter:description" content="an interactive map of the companies and technologies powering the ai stack.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "the ai infrastructure value chain",
+        "description": "an interactive map of the companies and technologies powering the ai stack, from data and compute through model training, inference, and applications.",
+        "author": {
+            "@type": "Person",
+            "name": "Sankalp Phadnis",
+            "url": "https://sankalpphadnis.com"
+        }
+    }
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 720px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .post-title {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .hero-hint {
+            color: #b5b0ab;
+            font-size: 0.7rem;
+            font-style: italic;
+            margin-bottom: 36px;
+        }
+
+        /* Chain */
+        .chain {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row-dual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .row-triple {
+            display: grid;
+            grid-template-columns: 1fr 32px 1fr 32px 1fr;
+            align-items: start;
+        }
+
+        .row-triple > :nth-child(1) { grid-column: 1; }
+        .row-triple > :nth-child(2) { grid-column: 2; }
+        .row-triple > :nth-child(3) { grid-column: 3; }
+        .row-triple > :nth-child(4) { grid-column: 4; }
+        .row-triple > :nth-child(5) { grid-column: 5; }
+
+        .hub-arrow-h {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: start;
+            height: 43px;
+        }
+
+        /* Connectors */
+        .conn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 0;
+        }
+
+        .conn-line {
+            width: 1.5px;
+            height: 20px;
+            background: #c0bbb7;
+        }
+
+        .conn-head {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 8px solid #c0bbb7;
+        }
+
+        /* Stage cards */
+        .stage {
+            border: 1px solid #d0cbc7;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .stage:hover {
+            border-color: #b5b0ab;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .stage-header:hover {
+            opacity: 0.55;
+        }
+
+        .stage-info {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .stage-num {
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: #b5b0ab;
+            flex-shrink: 0;
+        }
+
+        .stage-title {
+            font-weight: 500;
+            font-size: 0.88rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-toggle {
+            color: #c0bbb7;
+            font-size: 0.82rem;
+            font-weight: 500;
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .stage.open .stage-toggle {
+            transform: rotate(45deg);
+        }
+
+        .stage-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .stage.open .stage-body {
+            grid-template-rows: 1fr;
+        }
+
+        .stage-body-inner {
+            overflow: hidden;
+        }
+
+        .stage-content {
+            padding: 0 14px 14px;
+            border-top: 1px solid #e2deda;
+        }
+
+        .subseg {
+            margin-top: 12px;
+        }
+
+        .subseg-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: #9a9590;
+            margin-bottom: 6px;
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .pill {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 450;
+            white-space: nowrap;
+            color: #6b6b6b;
+            border: 1px solid #d0cbc7;
+            background: transparent;
+            text-decoration: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        a.pill:hover {
+            border-color: #9a9590;
+            color: #1a1a1a;
+        }
+
+        .stage-apps .stage-header {
+            cursor: default;
+        }
+
+        .stage-apps .stage-header:hover {
+            opacity: 1;
+        }
+
+        .apps-desc {
+            color: #9a9590;
+            font-size: 0.75rem;
+            margin-left: 2px;
+            font-weight: 400;
+        }
+
+        /* Cross-cutting layers */
+        .layers-section {
+            margin-top: 48px;
+            padding-top: 48px;
+            border-top: 1px solid #d0cbc7;
+        }
+
+        .layers-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: #9a9590;
+            margin-bottom: 4px;
+        }
+
+        .layers-desc {
+            font-size: 0.72rem;
+            color: #b5b0ab;
+            margin-bottom: 18px;
+        }
+
+        .layer {
+            border: 1px solid #d0cbc7;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            transition: border-color 0.2s ease;
+        }
+
+        .layer:hover {
+            border-color: #b5b0ab;
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .layer-header:hover {
+            opacity: 0.55;
+        }
+
+        .layer-title {
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .layer-toggle {
+            color: #c0bbb7;
+            font-size: 0.8rem;
+            font-weight: 500;
+            width: 16px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .layer.open .layer-toggle {
+            transform: rotate(45deg);
+        }
+
+        .layer-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .layer.open .layer-body {
+            grid-template-rows: 1fr;
+        }
+
+        .layer-body-inner {
+            overflow: hidden;
+        }
+
+        .layer-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 0 14px 12px;
+            border-top: 1px solid #e2deda;
+            padding-top: 10px;
+        }
+
+        .layer-pill {
+            font-size: 0.63rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            color: #6b6b6b;
+            border: 1px solid #d0cbc7;
+            background: transparent;
+            font-weight: 450;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        a.layer-pill:hover {
+            border-color: #9a9590;
+            color: #1a1a1a;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #9a9590;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #9a9590;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .row-dual {
+                grid-template-columns: 1fr;
+            }
+
+            .row-triple {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .row-triple > * { grid-column: 1 !important; }
+
+            .hub-arrow-h { display: none; }
+
+            .conn {
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="../">home</a>
+            <a href="../writing.html" class="active">writing</a>
+            <a href="../profile.html">profile</a>
+            <a href="../contact.html">contact</a>
+        </div>
+
+        <hr>
+
+        <div class="post-title">the ai infrastructure value chain</div>
+        <p class="hero-hint">click any stage to explore</p>
+
+        <div id="infographic"></div>
+
+        <a href="../writing.html" class="back-link">back to writing</a>
+
+        <footer style="margin-top: 80px; color: #c0bbb7; font-size: 0.7rem;">
+            built with mass vibe-coding by claude
+        </footer>
+    </main>
+
+    <script>
+        const URLS = {
+            'Surge AI': 'https://www.surgehq.ai', 'Scale AI': 'https://scale.com', 'Turing': 'https://www.turing.com', 'Mercor': 'https://www.mercor.com', 'Invisible AI': 'https://www.invisible.co', 'Labelbox': 'https://www.labelbox.com',
+            'Gretel': 'https://gretel.ai', 'Mostly AI': 'https://mostly.ai', 'Tonic.ai': 'https://www.tonic.ai',
+            'troveo': 'https://troveo.ai', 'Protege': 'https://withprotege.ai', 'David AI': 'https://www.withdavid.ai', 'Bright Data': 'https://brightdata.com',
+            'Reducto': 'https://reducto.ai', 'Cleanlab': 'https://cleanlab.ai', 'Unstructured': 'https://unstructured.io', 'LlamaIndex': 'https://www.llamaindex.ai', 'Firecrawl': 'https://www.firecrawl.dev',
+            'AWS': 'https://aws.amazon.com', 'Azure': 'https://azure.microsoft.com', 'Google Cloud': 'https://cloud.google.com',
+            'CoreWeave': 'https://www.coreweave.com', 'Lambda': 'https://lambdalabs.com', 'Crusoe': 'https://crusoe.ai', 'Together AI': 'https://www.together.ai',
+            'Equinix': 'https://www.equinix.com', 'Digital Realty': 'https://www.digitalrealty.com', 'QTS': 'https://www.qtsdatacenters.com', 'Constellation Energy': 'https://www.constellationenergy.com', 'GE Vernova': 'https://www.gevernova.com',
+            'NVIDIA/Mellanox (InfiniBand)': 'https://www.nvidia.com', 'Broadcom': 'https://www.broadcom.com', 'Arista': 'https://www.arista.com',
+            'OpenAI': 'https://openai.com', 'Anthropic': 'https://www.anthropic.com', 'Google DeepMind (Gemini)': 'https://deepmind.google',
+            'Meta (Llama)': 'https://ai.meta.com', 'Mistral': 'https://mistral.ai', 'DeepSeek': 'https://www.deepseek.com', 'Qwen': 'https://qwen.ai', 'Cohere': 'https://cohere.com', 'AI21': 'https://www.ai21.com',
+            'Bloomberg (finance)': 'https://www.bloomberg.com', 'Hippocratic AI (healthcare)': 'https://www.hippocraticai.com', 'Writer (enterprise)': 'https://writer.com',
+            'PyTorch': 'https://pytorch.org', 'JAX': 'https://github.com/jax-ml/jax', 'Mosaic/Databricks': 'https://www.databricks.com', 'Anyscale (Ray)': 'https://www.anyscale.com',
+            'Unsloth': 'https://unsloth.ai', 'Predibase': 'https://predibase.com', 'Lamini': 'https://www.lamini.ai', 'Axolotl': 'https://github.com/axolotl-ai-cloud/axolotl',
+            'Applied Compute': 'https://appliedcompute.com', 'Model Corp': 'https://modelcorp.ai',
+            'fleet': 'https://www.fleetai.com', 'Mechanize': 'https://www.mechanize.ai', 'Proximal AI': 'https://proximal.ai', 'Preference Model': 'https://www.preferencemodel.com',
+            'Fireworks AI': 'https://fireworks.ai', 'Baseten': 'https://www.baseten.co', 'Modal': 'https://modal.com', 'fal': 'https://fal.ai', 'Replicate': 'https://replicate.com',
+            'vLLM/Inferact': 'https://vllm.ai', 'SGL': 'https://sgl-project.github.io', 'Modular': 'https://www.modular.com', 'TensorRT-LLM': 'https://github.com/NVIDIA/TensorRT-LLM',
+            'OpenRouter': 'https://openrouter.ai', 'Martian': 'https://withmartian.com', 'Portkey': 'https://portkey.ai', 'LiteLLM': 'https://www.litellm.ai', 'Not Diamond': 'https://www.notdiamond.ai',
+            'fal (image/video)': 'https://fal.ai', 'ElevenLabs (voice)': 'https://elevenlabs.io', 'Deepgram (STT)': 'https://deepgram.com', 'Cartesia': 'https://www.cartesia.ai',
+            'Composio': 'https://composio.dev', 'Arcade AI': 'https://www.arcade.dev', 'Clerk': 'https://clerk.com', 'Anon': 'https://www.anon.com', 'Keycard': 'https://www.keycard.ai',
+            'Browserbase': 'https://www.browserbase.com', 'Kernel': 'https://www.kernel.sh', 'Tiny Fish': 'https://www.tinyfish.ai',
+            'E2B': 'https://e2b.dev', 'Daytona': 'https://www.daytona.io',
+            'Stripe': 'https://stripe.com', 'Skyfire': 'https://skyfire.xyz', 'Payman AI': 'https://paymanai.com',
+            'AgentMail': 'https://www.agentmail.to',
+            'LangChain/LangGraph': 'https://www.langchain.com', 'CrewAI': 'https://www.crewai.com', 'Mastra': 'https://mastra.ai', 'Microsoft AutoGen': 'https://github.com/microsoft/autogen',
+            'Temporal': 'https://temporal.io', 'Inngest': 'https://www.inngest.com', 'Restate': 'https://restate.dev',
+            'Humanloop': 'https://humanloop.com', 'PromptLayer': 'https://www.promptlayer.com',
+            'mem0': 'https://mem0.ai', 'Letta/MemGPT': 'https://www.letta.com', 'Zep': 'https://www.getzep.com', 'Cognee': 'https://www.cognee.ai',
+            'Pinecone': 'https://www.pinecone.io', 'Weaviate': 'https://weaviate.io', 'turbopuffer': 'https://turbopuffer.com', 'LanceDB': 'https://lancedb.com', 'Chroma': 'https://www.trychroma.com', 'Milvus/Zilliz': 'https://zilliz.com',
+            'Databricks': 'https://www.databricks.com', 'Snowflake': 'https://www.snowflake.com', 'MongoDB': 'https://www.mongodb.com', 'Supabase': 'https://supabase.com', 'Neon': 'https://neon.tech', 'Convex': 'https://www.convex.dev',
+            'Neo4j': 'https://neo4j.com', 'Diffbot': 'https://www.diffbot.com', 'Zeta Alpha': 'https://www.zeta-alpha.com',
+            'Lakera': 'https://www.lakera.ai', 'HiddenLayer': 'https://hiddenlayer.com', 'Protect AI': 'https://protectai.com', 'Haize Labs': 'https://www.haizelabs.com', 'Mindgard': 'https://mindgard.ai',
+            'LangSmith': 'https://smith.langchain.com', 'Langfuse': 'https://langfuse.com', 'Braintrust': 'https://www.braintrust.dev', 'Patronus AI': 'https://www.patronusai.com', 'HoneyHive': 'https://www.honeyhive.ai', 'Arize': 'https://arize.com', 'Goodfire (interpretability)': 'https://www.goodfire.ai',
+            'Credo AI': 'https://www.credo.ai', 'Holistic AI': 'https://www.holisticai.com', 'Arthur': 'https://www.arthur.ai', 'Fiddler AI': 'https://www.fiddler.ai',
+            'Mavvrik': 'https://www.mavvrik.ai', 'CloudPilot AI': 'https://www.cloudpilot.ai', 'Finout': 'https://www.finout.io', 'Vantage': 'https://www.vantage.sh'
+        };
+
+        function pill(name, cls) {
+            const url = URLS[name];
+            return url
+                ? `<a href="${url}" target="_blank" rel="noopener" class="${cls}">${name}</a>`
+                : `<span class="${cls}">${name}</span>`;
+        }
+
+        const STAGES = {
+            data: {
+                num: '01', title: 'data', id: 'data',
+                subsegments: [
+                    { title: 'human annotation & rlhf', companies: ['Surge AI', 'Scale AI', 'Turing', 'Mercor', 'Invisible AI', 'Labelbox'] },
+                    { title: 'synthetic data', companies: ['Gretel', 'Mostly AI', 'Tonic.ai'] },
+                    { title: 'real-world data sourcing', companies: ['troveo', 'Protege', 'David AI', 'Bright Data'] },
+                    { title: 'data pipelines & processing', companies: ['Reducto', 'Cleanlab', 'Unstructured', 'LlamaIndex', 'Firecrawl'] }
+                ]
+            },
+            infra: {
+                num: '02', title: 'infra (compute)', id: 'infra',
+                subsegments: [
+                    { title: 'hyperscale cloud', companies: ['AWS', 'Azure', 'Google Cloud'] },
+                    { title: 'gpu cloud / neoclouds', companies: ['CoreWeave', 'Lambda', 'Crusoe', 'Together AI'] },
+                    { title: 'data center & power', companies: ['Equinix', 'Digital Realty', 'QTS', 'Constellation Energy', 'GE Vernova'] },
+                    { title: 'networking', companies: ['NVIDIA/Mellanox (InfiniBand)', 'Broadcom', 'Arista'] }
+                ]
+            },
+            training: {
+                num: '03', title: 'model training', id: 'training',
+                subsegments: [
+                    { title: 'closed-source frontier labs', companies: ['OpenAI', 'Anthropic', 'Google DeepMind (Gemini)'] },
+                    { title: 'open-source model labs', companies: ['Meta (Llama)', 'Mistral', 'DeepSeek', 'Qwen', 'Cohere', 'AI21'] },
+                    { title: 'domain-specific models', companies: ['Bloomberg (finance)', 'Hippocratic AI (healthcare)', 'Writer (enterprise)'] },
+                    { title: 'training infrastructure', companies: ['PyTorch', 'JAX', 'Mosaic/Databricks', 'Anyscale (Ray)'] }
+                ]
+            },
+            customization: {
+                num: '04', title: 'model customization', id: 'customization',
+                subsegments: [
+                    { title: 'fine-tuning', companies: ['Unsloth', 'Predibase', 'Lamini', 'Axolotl'] },
+                    { title: 'rl post-training', companies: ['Applied Compute', 'TrajectoryAI', 'Model Corp'] },
+                    { title: 'rl environments', companies: ['fleet', 'Mechanize', 'Proximal AI', 'Preference Model'] }
+                ]
+            },
+            inference: {
+                num: '05', title: 'model inference', id: 'inference',
+                subsegments: [
+                    { title: 'inference platforms', companies: ['Fireworks AI', 'Baseten', 'Modal', 'fal', 'Replicate'] },
+                    { title: 'open-source engines', companies: ['vLLM/Inferact', 'SGL', 'Modular', 'TensorRT-LLM'] },
+                    { title: 'model routing & gateways', companies: ['OpenRouter', 'Martian', 'Portkey', 'LiteLLM', 'Not Diamond'] },
+                    { title: 'multimodal inference', companies: ['fal (image/video)', 'ElevenLabs (voice)', 'Deepgram (STT)', 'Cartesia'] }
+                ]
+            },
+            tooling: {
+                num: '06', title: 'tooling', id: 'tooling',
+                subsegments: [
+                    { title: 'agent auth & integrations', companies: ['Composio', 'Arcade AI', 'Clerk', 'Anon', 'Keycard'] },
+                    { title: 'browser infrastructure', companies: ['Browserbase', 'Kernel', 'Tiny Fish'] },
+                    { title: 'code sandboxes', companies: ['E2B', 'Daytona'] },
+                    { title: 'payments', companies: ['Stripe', 'Skyfire', 'Payman AI'] },
+                    { title: 'communications', companies: ['AgentMail'] }
+                ]
+            },
+            orchestration: {
+                num: '06', title: 'orchestration', id: 'orchestration',
+                subsegments: [
+                    { title: 'agent frameworks', companies: ['LangChain/LangGraph', 'CrewAI', 'Mastra', 'Microsoft AutoGen'] },
+                    { title: 'durable execution', companies: ['Temporal', 'Inngest', 'Restate'] },
+                    { title: 'prompt management', companies: ['Humanloop', 'PromptLayer', 'Portkey'] }
+                ]
+            },
+            context: {
+                num: '06', title: 'context', id: 'context',
+                subsegments: [
+                    { title: 'memory systems', companies: ['mem0', 'Letta/MemGPT', 'Zep', 'Cognee'] },
+                    { title: 'vector databases', companies: ['Pinecone', 'Weaviate', 'turbopuffer', 'LanceDB', 'Chroma', 'Milvus/Zilliz'] },
+                    { title: 'data platforms (extending into ai)', companies: ['Databricks', 'Snowflake', 'MongoDB', 'Supabase', 'Neon', 'Convex'] },
+                    { title: 'knowledge graphs', companies: ['Neo4j', 'Cognee', 'Diffbot', 'Zeta Alpha'] }
+                ]
+            }
+        };
+
+        const LAYERS = [
+            { title: 'security & trust', companies: ['Lakera', 'HiddenLayer', 'Protect AI', 'Haize Labs', 'Mindgard'] },
+            { title: 'observability & evals', companies: ['LangSmith', 'Langfuse', 'Braintrust', 'Patronus AI', 'HoneyHive', 'Arize', 'Goodfire (interpretability)'] },
+            { title: 'governance & compliance', companies: ['Credo AI', 'Holistic AI', 'Arthur', 'Fiddler AI'] },
+            { title: 'cost management / finops', companies: ['Mavvrik', 'CloudPilot AI', 'Finout', 'Vantage'] }
+        ];
+
+        function renderStageCard(stage) {
+            const subs = stage.subsegments.map(s => `
+                <div class="subseg">
+                    <div class="subseg-label">${s.title}</div>
+                    <div class="pills">${s.companies.map(c => pill(c, 'pill')).join('')}</div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="stage" id="stage-${stage.id}">
+                    <div class="stage-header" onclick="toggleStage(this)">
+                        <div class="stage-info">
+                            <span class="stage-num">${stage.num}</span>
+                            <span class="stage-title">${stage.title}</span>
+                        </div>
+                        <span class="stage-toggle">+</span>
+                    </div>
+                    <div class="stage-body">
+                        <div class="stage-body-inner">
+                            <div class="stage-content">${subs}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function arrow() {
+            return `<div class="conn"><div class="conn-line"></div><div class="conn-head"></div></div>`;
+        }
+
+        function init() {
+            const S = STAGES;
+            const el = document.getElementById('infographic');
+
+            const chain = `
+                <div class="chain">
+                    <div class="row-dual">
+                        ${renderStageCard(S.data)}
+                        ${renderStageCard(S.infra)}
+                    </div>
+                    ${arrow()}
+                    ${renderStageCard(S.training)}
+                    ${arrow()}
+                    ${renderStageCard(S.customization)}
+                    ${arrow()}
+                    ${renderStageCard(S.inference)}
+                    ${arrow()}
+                    <div class="row-triple">
+                        ${renderStageCard(S.tooling)}
+                        <div class="hub-arrow-h">
+                            <svg width="100%" height="16" viewBox="0 0 32 16" preserveAspectRatio="xMidYMid meet" fill="none">
+                                <line x1="6" y1="8" x2="26" y2="8" stroke="#c0bbb7" stroke-width="1.5"/>
+                                <path d="M2 8 L8 4 L8 12 Z" fill="#c0bbb7"/>
+                                <path d="M30 8 L24 4 L24 12 Z" fill="#c0bbb7"/>
+                            </svg>
+                        </div>
+                        ${renderStageCard(S.orchestration)}
+                        <div class="hub-arrow-h">
+                            <svg width="100%" height="16" viewBox="0 0 32 16" preserveAspectRatio="xMidYMid meet" fill="none">
+                                <line x1="6" y1="8" x2="26" y2="8" stroke="#c0bbb7" stroke-width="1.5"/>
+                                <path d="M2 8 L8 4 L8 12 Z" fill="#c0bbb7"/>
+                                <path d="M30 8 L24 4 L24 12 Z" fill="#c0bbb7"/>
+                            </svg>
+                        </div>
+                        ${renderStageCard(S.context)}
+                    </div>
+                    <div class="conn" id="conn-after-triple"><div class="conn-line"></div><div class="conn-head"></div></div>
+                    <div class="stage stage-apps" id="stage-apps">
+                        <div class="stage-header">
+                            <div class="stage-info">
+                                <span class="stage-num">07</span>
+                                <span class="stage-title">applications<span class="apps-desc"> · horizontal + vertical</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const layers = LAYERS.map(l => `
+                <div class="layer">
+                    <div class="layer-header" onclick="toggleLayer(this)">
+                        <span class="layer-title">${l.title}</span>
+                        <span class="layer-toggle">+</span>
+                    </div>
+                    <div class="layer-body">
+                        <div class="layer-body-inner">
+                            <div class="layer-pills">${l.companies.map(c => pill(c, 'layer-pill')).join('')}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const sidebar = `
+                <div class="layers-section">
+                    <div class="layers-label">cross-cutting layers</div>
+                    <p class="layers-desc">span the entire stack</p>
+                    ${layers}
+                </div>
+            `;
+
+            el.innerHTML = chain + sidebar;
+        }
+
+        function toggleStage(header) {
+            const stage = header.parentElement;
+            stage.classList.toggle('open');
+
+            if (stage.closest('.row-triple')) {
+                animateTripleArrow();
+            }
+        }
+
+        function animateTripleArrow() {
+            const start = performance.now();
+            function tick() {
+                updateTripleArrow();
+                if (performance.now() - start < 350) {
+                    requestAnimationFrame(tick);
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function updateTripleArrow() {
+            const row = document.querySelector('.row-triple');
+            const orchCard = document.getElementById('stage-orchestration');
+            const conn = document.getElementById('conn-after-triple');
+            if (!row || !orchCard || !conn) return;
+
+            const rowBottom = row.getBoundingClientRect().bottom;
+            const orchBottom = orchCard.getBoundingClientRect().bottom;
+            const extra = Math.max(0, rowBottom - orchBottom);
+
+            conn.querySelector('.conn-line').style.height = (20 + extra) + 'px';
+            conn.style.marginTop = -extra + 'px';
+        }
+
+        function toggleLayer(header) {
+            const layer = header.parentElement;
+            layer.classList.toggle('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            updateTripleArrow();
+        });
+    </script>
+</body>
+</html>
