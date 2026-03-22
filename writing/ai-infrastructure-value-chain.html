@@ -724,11 +724,21 @@
             requestAnimationFrame(tick);
         }
 
+        function isMobile() {
+            return window.matchMedia('(max-width: 680px)').matches;
+        }
+
         function updateTripleArrow() {
             const row = document.querySelector('.row-triple');
             const orchCard = document.getElementById('stage-orchestration');
             const conn = document.getElementById('conn-after-triple');
             if (!row || !orchCard || !conn) return;
+
+            if (isMobile()) {
+                conn.querySelector('.conn-line').style.height = '20px';
+                conn.style.marginTop = '0px';
+                return;
+            }
 
             const rowBottom = row.getBoundingClientRect().bottom;
             const orchBottom = orchCard.getBoundingClientRect().bottom;
@@ -746,6 +756,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             init();
             updateTripleArrow();
+            window.addEventListener('resize', updateTripleArrow);
         });
     </script>
 </body>
