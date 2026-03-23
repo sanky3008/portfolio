@@ -476,8 +476,8 @@
 
     <script>
         const URLS = {
-            'Surge AI': 'https://www.surgehq.ai', 'Scale AI': 'https://scale.com', 'Turing': 'https://www.turing.com', 'Mercor': 'https://www.mercor.com', 'Invisible AI': 'https://www.invisible.co', 'Labelbox': 'https://www.labelbox.com',
-            'Gretel': 'https://gretel.ai', 'Mostly AI': 'https://mostly.ai', 'Tonic.ai': 'https://www.tonic.ai',
+            'Surge AI': 'https://www.surgehq.ai', 'Scale AI': 'https://scale.com', 'Turing': 'https://www.turing.com', 'Mercor': 'https://www.mercor.com', 'Labelbox': 'https://www.labelbox.com',
+            'Mostly AI': 'https://mostly.ai', 'Tonic.ai': 'https://www.tonic.ai',
             'troveo': 'https://troveo.ai', 'Protege': 'https://withprotege.ai', 'David AI': 'https://www.withdavid.ai', 'Bright Data': 'https://brightdata.com',
             'Reducto': 'https://reducto.ai', 'Cleanlab': 'https://cleanlab.ai', 'Unstructured': 'https://unstructured.io', 'LlamaIndex': 'https://www.llamaindex.ai', 'Firecrawl': 'https://www.firecrawl.dev',
             'AWS': 'https://aws.amazon.com', 'Azure': 'https://azure.microsoft.com', 'Google Cloud': 'https://cloud.google.com',
@@ -488,9 +488,9 @@
             'Meta (Llama)': 'https://ai.meta.com', 'Mistral': 'https://mistral.ai', 'DeepSeek': 'https://www.deepseek.com', 'Qwen': 'https://qwen.ai', 'Cohere': 'https://cohere.com', 'AI21': 'https://www.ai21.com',
             'Bloomberg (finance)': 'https://www.bloomberg.com', 'Hippocratic AI (healthcare)': 'https://www.hippocraticai.com', 'Writer (enterprise)': 'https://writer.com',
             'PyTorch': 'https://pytorch.org', 'JAX': 'https://github.com/jax-ml/jax', 'Mosaic/Databricks': 'https://www.databricks.com', 'Anyscale (Ray)': 'https://www.anyscale.com',
-            'Unsloth': 'https://unsloth.ai', 'Predibase': 'https://predibase.com', 'Lamini': 'https://www.lamini.ai', 'Axolotl': 'https://github.com/axolotl-ai-cloud/axolotl',
+            'Unsloth': 'https://unsloth.ai', 'Axolotl': 'https://github.com/axolotl-ai-cloud/axolotl',
             'Applied Compute': 'https://appliedcompute.com', 'Model Corp': 'https://modelcorp.ai',
-            'fleet': 'https://www.fleetai.com', 'Mechanize': 'https://www.mechanize.ai', 'Proximal AI': 'https://proximal.ai', 'Preference Model': 'https://www.preferencemodel.com',
+            'fleet': 'https://www.fleetai.com', 'Proximal AI': 'https://proximal.ai', 'Preference Model': 'https://www.preferencemodel.com',
             'Fireworks AI': 'https://fireworks.ai', 'Baseten': 'https://www.baseten.co', 'Modal': 'https://modal.com', 'fal': 'https://fal.ai', 'Replicate': 'https://replicate.com',
             'vLLM/Inferact': 'https://vllm.ai', 'SGL': 'https://sgl-project.github.io', 'Modular': 'https://www.modular.com', 'TensorRT-LLM': 'https://github.com/NVIDIA/TensorRT-LLM',
             'OpenRouter': 'https://openrouter.ai', 'Martian': 'https://withmartian.com', 'Portkey': 'https://portkey.ai', 'LiteLLM': 'https://www.litellm.ai', 'Not Diamond': 'https://www.notdiamond.ai',
@@ -524,10 +524,10 @@
             data: {
                 num: '01', title: 'data', id: 'data',
                 subsegments: [
-                    { title: 'human annotation & rlhf', companies: ['Surge AI', 'Scale AI', 'Turing', 'Mercor', 'Invisible AI', 'Labelbox'] },
-                    { title: 'synthetic data', companies: ['Gretel', 'Mostly AI', 'Tonic.ai'] },
+                    { title: 'human annotation & rlhf', companies: ['Surge AI', 'Scale AI', 'Turing', 'Mercor', 'Labelbox'] },
+                    { title: 'synthetic data', companies: ['Mostly AI', 'Tonic.ai'] },
                     { title: 'real-world data sourcing', companies: ['troveo', 'Protege', 'David AI', 'Bright Data'] },
-                    { title: 'data pipelines & processing', companies: ['Reducto', 'Cleanlab', 'Unstructured', 'LlamaIndex', 'Firecrawl'] }
+                    { title: 'data pipelines & processing', companies: ['Reducto', 'Cleanlab', 'Unstructured', 'LlamaIndex'] }
                 ]
             },
             infra: {
@@ -551,9 +551,9 @@
             customization: {
                 num: '04', title: 'model customization', id: 'customization',
                 subsegments: [
-                    { title: 'fine-tuning', companies: ['Unsloth', 'Predibase', 'Lamini', 'Axolotl'] },
-                    { title: 'rl post-training', companies: ['Applied Compute', 'TrajectoryAI', 'Model Corp'] },
-                    { title: 'rl environments', companies: ['fleet', 'Mechanize', 'Proximal AI', 'Preference Model'] }
+                    { title: 'fine-tuning', companies: ['Unsloth', 'Axolotl'] },
+                    { title: 'rl post-training', companies: ['Applied Compute', 'Model Corp'] },
+                    { title: 'rl environments', companies: ['fleet', 'Proximal AI', 'Preference Model'] }
                 ]
             },
             inference: {
@@ -569,7 +569,7 @@
                 num: '06', title: 'tooling', id: 'tooling',
                 subsegments: [
                     { title: 'agent auth & integrations', companies: ['Composio', 'Arcade AI', 'Clerk', 'Anon', 'Keycard'] },
-                    { title: 'browser infrastructure', companies: ['Browserbase', 'Kernel', 'Tiny Fish'] },
+                    { title: 'browser infrastructure', companies: ['Browserbase', 'Kernel', 'Tiny Fish', 'Firecrawl'] },
                     { title: 'code sandboxes', companies: ['E2B', 'Daytona'] },
                     { title: 'payments', companies: ['Stripe', 'Skyfire', 'Payman AI'] },
                     { title: 'communications', companies: ['AgentMail'] }
