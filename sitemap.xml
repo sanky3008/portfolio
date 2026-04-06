@@ -7,6 +7,9 @@
         <loc>https://sankalpphadnis.com/writing.html</loc>
     </url>
     <url>
+        <loc>https://sankalpphadnis.com/projects.html</loc>
+    </url>
+    <url>
         <loc>https://sankalpphadnis.com/profile.html</loc>
     </url>
     <url>
@@ -26,5 +29,8 @@
     </url>
     <url>
         <loc>https://sankalpphadnis.com/writing/building-zarie.html</loc>
+    </url>
+    <url>
+        <loc>https://sankalpphadnis.com/writing/how-zarie-works.html</loc>
     </url>
 </urlset>

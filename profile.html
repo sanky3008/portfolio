@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sankalp phadnis · profile</title>
-    <meta name="description" content="sankalp phadnis — experience, projects, and education.">
+    <meta name="description" content="sankalp phadnis — experience and education.">
     <link rel="canonical" href="https://sankalpphadnis.com/profile.html">
     <meta property="og:title" content="sankalp phadnis · profile">
-    <meta property="og:description" content="sankalp phadnis — experience, projects, and education.">
+    <meta property="og:description" content="sankalp phadnis — experience and education.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sankalpphadnis.com/profile.html">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="sankalp phadnis · profile">
-    <meta name="twitter:description" content="sankalp phadnis — experience, projects, and education.">
+    <meta name="twitter:description" content="sankalp phadnis — experience and education.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,6 +98,11 @@
             letter-spacing: 0.12em;
             color: #9a9590;
             margin-bottom: 20px;
+        }
+
+        .skills-line {
+            color: #6b6b6b;
+            font-size: 0.85rem;
         }
 
         .exp {
@@ -305,9 +310,16 @@
         <div class="links">
             <a href="/">home</a>
             <a href="writing.html">writing</a>
+            <a href="projects.html">projects</a>
             <a href="profile.html" class="active">profile</a>
             <a href="contact.html">contact</a>
         </div>
+
+        <hr>
+
+        <p class="label">skills</p>
+
+        <p class="skills-line">python · typescript · pytorch · langchain · langgraph · litellm · fastapi · postgresql · react · docker</p>
 
         <hr>
 
@@ -320,15 +332,16 @@
                     <span class="exp-role"> · founder & ceo</span>
                 </div>
                 <div class="exp-right">
-                    <span class="exp-date">2025–</span>
+                    <span class="exp-date">2025–2026</span>
                     <span class="exp-toggle">+</span>
                 </div>
             </div>
             <div class="exp-body">
                 <div class="exp-body-inner">
                     <ul class="exp-details">
-                        <li>building <a href="https://writelemma.com" target="_blank" rel="noopener">lemma</a>, an ai-native prd workspace for product managers</li>
-                        <li>built <a href="https://www.zarie.chat" target="_blank" rel="noopener">zarie</a>, an ai life management assistant <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener" class="detail-link">github</a></li>
+                        <li>built <a href="https://writelemma.com" target="_blank" rel="noopener">lemma</a>, an ai workspace for writing product docs. the ai reads your active document and helps edit, research the web, and generate diagrams. built with next.js, convex, plate.js, vercel ai sdk</li>
+                        <li>built <a href="https://www.zarie.chat" target="_blank" rel="noopener">zarie</a>, an ai assistant on telegram and slack for reminders, schedules, and tasks. two-agent system: one handles conversations, the other runs background jobs. built with fastapi, postgresql, litellm <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener" class="detail-link">github</a></li>
+                        <li>built poirot, an internal tool to trace and debug agent behavior across both products</li>
                     </ul>
                 </div>
             </div>
@@ -349,9 +362,10 @@
                 <div class="exp-body-inner">
                     <ul class="exp-details">
                         <li>grew mtf loan book 11x to ₹883cr in 7 months</li>
+                        <li>designed recommendation algorithm for trending mtf stocks, 3x new transacting users</li>
                         <li>launched bill payments to 500k+ users with nps 48</li>
                         <li>scaled bulk payouts to 1l withdrawals/day, 75% latency reduction</li>
-                        <li>revamped mutual fund cash flows for sebi non-pooling compliance</li>
+                        <li>built compliancegpt, a rag chatbot over 15gb of rbi/sebi circulars using langchain, deployed internally</li>
                     </ul>
                 </div>
             </div>
@@ -399,31 +413,6 @@
             </div>
         </div>
 
-        <hr>
-
-        <p class="label">projects</p>
-
-        <div class="proj">
-            <span class="proj-name"><a href="https://apps.apple.com/us/app/today-focused-task-manager/id6744840789" target="_blank" rel="noopener">today</a></span>
-            <span class="proj-desc"> · minimalist task manager · app store</span>
-        </div>
-        <div class="proj">
-            <span class="proj-name">compliancegpt</span>
-            <span class="proj-desc"> · rag-based legal chatbot for fintech · internal at groww</span>
-        </div>
-        <div class="proj">
-            <span class="proj-name"><a href="https://www.youtube.com/watch?v=-Xxp_50SeEU" target="_blank" rel="noopener">hackcraft '23</a></span>
-            <span class="proj-desc"> · ai conversational payments prototype · won best ui among 47 teams</span>
-        </div>
-
-        <hr>
-
-        <p class="label">course projects</p>
-
-        <div class="proj">
-            <span class="proj-name">mini recursive models</span>
-            <span class="proj-desc"> · reimplemented <a href="https://arxiv.org/abs/2510.04871" target="_blank" rel="noopener">trm</a> from scratch, 60+ ablation experiments on sudoku reasoning · 94.4% accuracy · cs 7643</span>
-        </div>
 
         <hr>
 
@@ -479,9 +468,6 @@
             <span class="proj-desc"> · ai workflow builder with sandboxed code execution · archived (poor ux)</span>
         </div>
 
-        <footer style="margin-top: 80px; color: #c0bbb7; font-size: 0.7rem;">
-            built with mass vibe-coding by claude
-        </footer>
     </main>
 
     <script>

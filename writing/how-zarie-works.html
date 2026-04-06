@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>how zarie works under the hood · sankalp phadnis</title>
+    <meta name="description" content="a technical deep dive into zarie's dual-agent architecture, custom ReAct loop, and three hard lessons about building AI assistants.">
+    <link rel="canonical" href="https://sankalpphadnis.com/writing/how-zarie-works.html">
+    <meta property="og:title" content="how zarie works under the hood · sankalp phadnis">
+    <meta property="og:description" content="a technical deep dive into zarie's dual-agent architecture, custom ReAct loop, and three hard lessons about building AI assistants.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sankalpphadnis.com/writing/how-zarie-works.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="how zarie works under the hood · sankalp phadnis">
+    <meta name="twitter:description" content="a technical deep dive into zarie's dual-agent architecture, custom ReAct loop, and three hard lessons about building AI assistants.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "how zarie works under the hood",
+        "description": "a technical deep dive into zarie's dual-agent architecture, custom ReAct loop, and three hard lessons about building AI assistants.",
+        "author": {
+            "@type": "Person",
+            "name": "Sankalp Phadnis",
+            "url": "https://sankalpphadnis.com"
+        },
+        "datePublished": "2026-04-06"
+    }
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .post-title {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .post-body p {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
+        .post-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .post-body .section-label {
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: #1a1a1a;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .post-body .subsection-label {
+            font-weight: 500;
+            font-size: 0.82rem;
+            color: #3a3a3a;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        .post-body code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            background: #d9d4d0;
+            padding: 1px 5px;
+            border-radius: 3px;
+            color: #3a3a3a;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #9a9590;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #9a9590;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background: #d9d4d0;
+            border: 1px solid #c0bbb7;
+            border-radius: 8px;
+            padding: 24px 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .diagram-label {
+            font-size: 0.68rem;
+            color: #9a9590;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* Architecture boxes */
+        .arch-box {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        .arch-box.dark {
+            background: #1a1a1a;
+            color: #e2deda;
+            border-color: #1a1a1a;
+        }
+
+        .arch-box.highlight {
+            border-color: #1a1a1a;
+            border-width: 1.5px;
+        }
+
+        .arch-box-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .arch-box-desc {
+            font-size: 0.64rem;
+            color: #9a9590;
+            line-height: 1.4;
+        }
+
+        .arch-box.dark .arch-box-desc {
+            color: #8a8580;
+        }
+
+        /* High level arch */
+        .high-level {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .high-level-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .high-level-row .arch-box {
+            flex: 1;
+        }
+
+        .arch-arrow {
+            display: flex;
+            justify-content: center;
+            padding: 6px 0;
+        }
+
+        .arch-arrow-h {
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+        }
+
+        /* Flowchart */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .fc-box {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 10px 16px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .fc-box.dark {
+            background: #1a1a1a;
+            color: #e2deda;
+            border-color: #1a1a1a;
+        }
+
+        .fc-box-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .fc-box-desc {
+            font-size: 0.64rem;
+            color: #9a9590;
+            line-height: 1.4;
+        }
+
+        .fc-box.dark .fc-box-desc {
+            color: #8a8580;
+        }
+
+        .fc-arrow-down {
+            display: flex;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        .fc-diamond {
+            background: #d9d4d0;
+            border: 1.5px solid #1a1a1a;
+            width: 54%;
+            padding: 10px 14px;
+            text-align: center;
+            transform: rotate(0deg);
+            border-radius: 6px;
+        }
+
+        .fc-diamond-label {
+            font-size: 0.70rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .fc-branch {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            width: 100%;
+            gap: 0;
+            align-items: start;
+        }
+
+        .fc-branch-left, .fc-branch-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .fc-branch-label {
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: #9a9590;
+            padding: 4px 0;
+        }
+
+        .fc-branch-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+        }
+
+        .fc-loopback {
+            font-size: 0.60rem;
+            color: #9a9590;
+            text-align: center;
+            padding-top: 4px;
+        }
+
+        /* ER diagram */
+        .er-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .er-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .er-table {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .er-table-name {
+            font-size: 0.70rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            padding: 8px 10px 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        .er-col {
+            font-size: 0.62rem;
+            color: #6b6b6b;
+            padding: 2px 10px;
+            line-height: 1.5;
+        }
+
+        .er-col:last-child {
+            padding-bottom: 8px;
+        }
+
+        .er-pk, .er-fk {
+            font-size: 0.54rem;
+            font-weight: 600;
+            padding: 1px 4px;
+            border-radius: 2px;
+            margin-left: 4px;
+        }
+
+        .er-pk {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        .er-fk {
+            background: #c0bbb7;
+            color: #4a4a4a;
+        }
+
+        .er-relation {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+        }
+
+        .er-relation-line {
+            flex: 1;
+            height: 1px;
+            border-top: 1px dashed #c0bbb7;
+        }
+
+        .er-relation-label {
+            font-size: 0.60rem;
+            color: #9a9590;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* Comparison cards */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .compare-card {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 14px 12px;
+        }
+
+        .compare-card.preferred {
+            border-color: #1a1a1a;
+            border-width: 1.5px;
+        }
+
+        .compare-card-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .compare-card-desc {
+            font-size: 0.64rem;
+            color: #9a9590;
+            line-height: 1.45;
+        }
+
+        .compare-card-verdict {
+            font-size: 0.62rem;
+            font-weight: 500;
+            margin-top: 8px;
+            color: #6b6b6b;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .high-level-row {
+                flex-direction: column;
+            }
+
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .er-row {
+                grid-template-columns: 1fr;
+            }
+
+            .fc-box, .fc-diamond {
+                width: 100% !important;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="../">home</a>
+            <a href="../writing.html" class="active">writing</a>
+            <a href="../projects.html">projects</a>
+            <a href="../profile.html">profile</a>
+            <a href="../contact.html">contact</a>
+        </div>
+
+        <hr>
+
+        <div class="post-title">how zarie works under the hood</div>
+
+        <div class="post-body">
+            <p>i <a href="building-zarie.html" style="color: #1a1a1a;">wrote earlier</a> about building and pausing zarie. this post is different. it is a technical deep dive into how the system actually works, the architecture decisions we made, and three lessons i learned the hard way about building AI agents.</p>
+
+            <p>zarie is an AI assistant that runs on telegram and slack. you tell it to remind you about things, manage tasks, sync calendars, or search the web. we built it between october and december 2025. this post explains how the system works: a dual&#8209;agent architecture, a custom ReAct loop built on LiteLLM (no agent frameworks), a scheduler for recurring events, and postgres for all state.</p>
+
+            <p class="section-label">the architecture</p>
+
+            <p>at a high level, zarie has three layers: the messaging layer (telegram and slack bots), the agent layer (a main agent and worker agents), and the persistence layer (postgres for everything).</p>
+
+            <!-- High-level architecture diagram -->
+            <div class="diagram">
+                <div class="diagram-label">high&#8209;level architecture</div>
+                <div class="high-level">
+                    <div class="high-level-row">
+                        <div class="arch-box">
+                            <div class="arch-box-title">telegram bot</div>
+                            <div class="arch-box-desc">message buffering, whitelist</div>
+                        </div>
+                        <div class="arch-box">
+                            <div class="arch-box-title">slack bot</div>
+                            <div class="arch-box-desc">MPIM, thread support</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box dark" style="flex: 2;">
+                            <div class="arch-box-title">main agent (donna)</div>
+                            <div class="arch-box-desc">user&#8209;facing ReAct loop, tool calling, conversation streaming</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">worker agents</div>
+                            <div class="arch-box-desc">background tasks, reminders</div>
+                        </div>
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">scheduler</div>
+                            <div class="arch-box-desc">60s cron, RRULE engine</div>
+                        </div>
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">event manager</div>
+                            <div class="arch-box-desc">time events, status locking</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box" style="flex: 2;">
+                            <div class="arch-box-title">postgresql</div>
+                            <div class="arch-box-desc">users, conversations, worker state, time events, google creds</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>when a user sends a message on telegram or slack, the bot buffers it for 5 seconds (to batch rapid&#8209;fire messages), then hands it to the main agent. the main agent runs a ReAct loop: it thinks, optionally calls tools, gets results, and loops until it has a final response. one of those tools is <code>invoke_worker_agent</code>, which delegates background work to a separate agent with its own conversation context.</p>
+
+            <p class="section-label">the data model</p>
+
+            <p>before going deeper into the agents, it helps to see what the database looks like. everything lives in postgres. no redis, no vector database, no external stores.</p>
+
+            <!-- ER diagram -->
+            <div class="diagram">
+                <div class="diagram-label">data model</div>
+                <div class="er-diagram">
+                    <div class="er-table">
+                        <div class="er-table-name">users</div>
+                        <div class="er-col">telegram_id <span class="er-pk">PK</span></div>
+                        <div class="er-col">name, platform, timezone</div>
+                    </div>
+                    <div class="er-relation">
+                        <div class="er-relation-line"></div>
+                        <div class="er-relation-label">1 : many</div>
+                        <div class="er-relation-line"></div>
+                    </div>
+                    <div class="er-row">
+                        <div class="er-table">
+                            <div class="er-table-name">chats_context</div>
+                            <div class="er-col">user_id <span class="er-fk">FK</span></div>
+                            <div class="er-col">message_sequence</div>
+                            <div class="er-col">role, content, tool_calls</div>
+                            <div class="er-col">thread_ts, author_id</div>
+                            <div class="er-col">is_summarised</div>
+                        </div>
+                        <div class="er-table">
+                            <div class="er-table-name">time_events</div>
+                            <div class="er-col">user_id <span class="er-fk">FK</span></div>
+                            <div class="er-col">next_trigger_timestamp</div>
+                            <div class="er-col">recurrence_rule (RRULE)</div>
+                            <div class="er-col">status: ACTIVE | PROCESSING | DISABLED</div>
+                        </div>
+                    </div>
+                    <div class="er-relation">
+                        <div class="er-relation-line"></div>
+                        <div class="er-relation-label">1 : many</div>
+                        <div class="er-relation-line"></div>
+                    </div>
+                    <div class="er-row">
+                        <div class="er-table">
+                            <div class="er-table-name">worker_agent_directory_v2</div>
+                            <div class="er-col">agent_name, user_id</div>
+                            <div class="er-col">purpose, running_summary</div>
+                        </div>
+                        <div class="er-table">
+                            <div class="er-table-name">worker_agent_context</div>
+                            <div class="er-col">same schema as chats_context</div>
+                            <div class="er-col">scoped to worker agents</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>the <code>chats_context</code> table is the most important one. every message, tool call, and tool result is stored as a row with a monotonically increasing <code>message_sequence</code> per user. when we rebuild context for an LLM call, we query by user_id, order by sequence, and have the full conversation. for slack MPIMs (multi&#8209;party DMs), <code>thread_ts</code> and <code>author_id</code> track who said what within a group conversation.</p>
+
+            <p>worker agents get their own tables. the directory stores metadata (name, purpose, a running summary of state), and <code>worker_agent_context</code> mirrors the main conversation table but is scoped per worker. this separation means the main agent and workers never pollute each other's context.</p>
+
+            <p class="section-label">the ReAct loop</p>
+
+            <p>both agents (main and worker) run the same pattern. the loop is simple and this is the entire thing, no framework required:</p>
+
+            <!-- ReAct loop flowchart -->
+            <div class="diagram">
+                <div class="diagram-label">ReAct loop</div>
+                <div class="flowchart">
+                    <div class="fc-box">
+                        <div class="fc-box-title">build context</div>
+                        <div class="fc-box-desc">fetch history from postgres. summarize if &gt;100 messages. prepend system prompt + running summary.</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box dark">
+                        <div class="fc-box-title">call LLM via LiteLLM</div>
+                        <div class="fc-box-desc">messages + tool definitions, tool_choice="auto"</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-diamond">
+                        <div class="fc-diamond-label">tool calls in response?</div>
+                    </div>
+                    <div class="fc-branch">
+                        <div class="fc-branch-left">
+                            <div class="fc-branch-label">yes</div>
+                            <svg width="12" height="16" viewBox="0 0 12 16"><line x1="6" y1="0" x2="6" y2="10" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 14 L3 9 L9 9 Z" fill="#c0bbb7"/></svg>
+                            <div class="fc-box" style="width: 100%;">
+                                <div class="fc-box-title">execute tools</div>
+                                <div class="fc-box-desc">run tool, store call + result in DB</div>
+                            </div>
+                            <div class="fc-loopback">&#8593; loop back to LLM call</div>
+                        </div>
+                        <div class="fc-branch-center"></div>
+                        <div class="fc-branch-right">
+                            <div class="fc-branch-label">no</div>
+                            <svg width="12" height="16" viewBox="0 0 12 16"><line x1="6" y1="0" x2="6" y2="10" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 14 L3 9 L9 9 Z" fill="#c0bbb7"/></svg>
+                            <div class="fc-box" style="width: 100%;">
+                                <div class="fc-box-title">stream response</div>
+                                <div class="fc-box-desc">chunk by paragraphs, send to user, store in DB. done.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>each iteration of the loop is one LLM call. the model sees the full conversation including prior tool calls and their results. this means if the model calls <code>set_time_event</code> and it fails, it sees the error in the next iteration and can retry or adjust. there is no retry logic built into the application. the LLM handles it naturally.</p>
+
+            <p class="section-label">the dual&#8209;agent system</p>
+
+            <p>the main agent handles direct user conversations. but some tasks need to happen in the background: recurring reminders, periodic check&#8209;ins, event&#8209;triggered actions. those get delegated to worker agents.</p>
+
+            <p>when the main agent calls <code>invoke_worker_agent</code>, it either creates a new worker or resumes an existing one by name. each worker has its own conversation history stored in a separate table (<code>worker_agent_context</code>). workers carry a <code>running_summary</code> that captures their purpose and state, so they maintain continuity across invocations.</p>
+
+            <p>workers have a different tool set than the main agent. they can set and delete time events, access google calendar, and search the web, but they cannot invoke other workers. the separation keeps things clean: the main agent talks to the user, workers handle background jobs.</p>
+
+            <p class="subsection-label">the scheduler</p>
+
+            <p>a separate process (<code>run_scheduler.py</code>) runs every 60 seconds and checks for due events. the flow looks like this:</p>
+
+            <!-- Scheduler flow -->
+            <div class="diagram">
+                <div class="diagram-label">scheduler flow (runs every 60s)</div>
+                <div class="flowchart">
+                    <div class="fc-box" style="width: 70%;">
+                        <div class="fc-box-title">query due events</div>
+                        <div class="fc-box-desc">SELECT * FROM time_events WHERE next_trigger_timestamp &lt;= NOW() AND status = 'ACTIVE'</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box dark" style="width: 70%;">
+                        <div class="fc-box-title">lock to PROCESSING</div>
+                        <div class="fc-box-desc">prevents duplicate triggers from concurrent runs</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box" style="width: 70%;">
+                        <div class="fc-box-title">invoke worker agent</div>
+                        <div class="fc-box-desc">worker decides what to tell the user (or returns No_Response_Needed to stay silent)</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box" style="width: 70%;">
+                        <div class="fc-box-title">stream response to user</div>
+                        <div class="fc-box-desc">via main agent, on telegram or slack</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box" style="width: 70%;">
+                        <div class="fc-box-title">update next trigger</div>
+                        <div class="fc-box-desc">parse RRULE, calculate next occurrence, set status back to ACTIVE (or DISABLED if one&#8209;time)</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>race conditions are a real concern with time events. if the scheduler fires twice before the first run finishes, you get duplicate reminders. we handle this by immediately locking every due event to <code>PROCESSING</code> status before doing anything else, and processing events for the same user sequentially. events have three states: <code>ACTIVE</code>, <code>PROCESSING</code>, and <code>DISABLED</code>.</p>
+
+            <p>for recurring events, we use RRULE strings (the same format used in iCalendar). the event manager parses the rule, calculates the next trigger time using <code>dateutil.rrule</code>, and updates the record. all timestamps are stored in UTC and converted to the user's timezone only at display time.</p>
+
+            <p>workers also have a special token: <code>No_Response_Needed</code>. when a worker returns this, the entire response is suppressed. the user sees nothing. this is important for background operations like silently checking whether a recurring task is still relevant before bothering the user about it.</p>
+
+            <p class="section-label">three things i learned</p>
+
+            <p class="subsection-label">1. ditch the framework, build the loop yourself</p>
+
+            <p>we started with LangChain and LangGraph. the pitch was appealing: pre&#8209;built agent loops, tracing via LangSmith, a graph&#8209;based execution model. in practice, it was a mess.</p>
+
+            <p>the abstractions were leaky. debugging required understanding not just your code but the framework's internal state machine. LangSmith's tracing was useful when it worked, but the setup overhead was significant. every time we wanted to change something about the agent loop (how tools were retried, how streaming worked, how context was managed), we were fighting the framework instead of writing code.</p>
+
+            <!-- Comparison diagram -->
+            <div class="diagram">
+                <div class="diagram-label">framework vs. custom</div>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-card-title">langchain / langgraph</div>
+                        <div class="compare-card-desc">pre&#8209;built agent loops. graph&#8209;based execution. langsmith tracing. large dependency tree. abstractions that are hard to customize or debug.</div>
+                        <div class="compare-card-verdict">abandoned after 3 weeks</div>
+                    </div>
+                    <div class="compare-card preferred">
+                        <div class="compare-card-title">litellm + custom ReAct loop</div>
+                        <div class="compare-card-desc">one dependency for LLM calls. 100 lines of code for the full agent loop. full control over streaming, retries, context management, tool execution.</div>
+                        <div class="compare-card-verdict">what we shipped</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>we ripped it all out and wrote our own ReAct loop on top of LiteLLM. LiteLLM is a thin wrapper that normalizes the API across model providers (OpenAI, Anthropic, Google, DeepSeek, etc.) without trying to be an agent framework. our entire agent loop is about 100 lines of Python. we can read every line, debug every edge case, and change anything we want without fighting abstractions.</p>
+
+            <p>the tracing we lost from LangSmith? we replaced it with Poirot, a simple internal tool that logs every LLM call, tool invocation, and response for a given user session. it was not fancy, but it showed us exactly what we needed.</p>
+
+            <p>my takeaway: agent frameworks add value when your use case maps cleanly onto their assumptions. if it does not (and for most real products, it will not), you are better off with a thin LLM wrapper and your own loop.</p>
+
+            <p class="subsection-label">2. vector search lost to "just keep everything in context"</p>
+
+            <p>early on, we built a notes system where the AI could create, read, update, and delete notes using vector search. the idea was that users would accumulate information over time, and the AI would retrieve relevant notes via embeddings when needed.</p>
+
+            <p>it did not work well. retrieval was unpredictable. the AI would sometimes miss relevant notes or pull in irrelevant ones. edits were a nightmare: when a user said "update my grocery list," the AI had to figure out which note to edit, merge the old and new content, and re&#8209;embed it. failure modes were subtle and hard to debug.</p>
+
+            <!-- Comparison diagram -->
+            <div class="diagram">
+                <div class="diagram-label">memory strategy: what we tried vs. what worked</div>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-card-title">vector search (CRUD notes)</div>
+                        <div class="compare-card-desc">AI creates and retrieves notes via embeddings. requires explicit CRUD operations. retrieval is similarity&#8209;based and unpredictable. edits are error&#8209;prone.</div>
+                        <div class="compare-card-verdict">dropped after testing</div>
+                    </div>
+                    <div class="compare-card preferred">
+                        <div class="compare-card-title">full message history + summarization</div>
+                        <div class="compare-card-desc">keep all messages in the conversation thread. when context exceeds ~100 messages, summarize older ones into a structured running summary. LLM has full context.</div>
+                        <div class="compare-card-verdict">worked much better</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>what actually worked was dumb and simple: keep every message in the conversation thread and let the LLM see all of it. when context got too long (over 100 messages), we ran a summarization pass that extracted key facts into a structured running summary (user preferences, contacts, recurring patterns) and marked the old messages as summarized. the last 6 user interactions stayed in full, so the model always had recent context.</p>
+
+            <p>this worked because the LLM does not need vector search to find a note. it already has the context. if a user said "add eggs to my grocery list" three messages ago, the model remembers. even after summarization, the structured summary captures "grocery list: milk, bread, eggs" in plain text. no embedding, no similarity threshold, no retrieval failures. and if the user updates the list, the new message is simply in context. the model merges it naturally.</p>
+
+            <p>the lesson: vector search is great for searching over large external corpora where the content was never in the conversation. but for user&#8209;generated context within an ongoing conversation, just keeping the messages and summarizing when needed is simpler and more reliable.</p>
+
+            <p class="subsection-label">3. prompt tuning creates model lock&#8209;in</p>
+
+            <p>this one surprised us. we built zarie between october and december 2025, and started with DeepSeek V3 hosted in China. we spent weeks tuning our system prompt for it. the prompt is detailed: it defines an instruction hierarchy, specifies how to handle timezones, how to calculate relative times, how to format responses, and dozens of behavioral guidelines. DeepSeek V3 followed it well. the product felt good.</p>
+
+            <p>then we wanted to move off China&#8209;hosted servers for latency and reliability reasons. we tried the same model through OpenRouter and Together AI. same model name, same prompt. the results were noticeably worse. responses were less consistent, tool calling was flakier, and the overall quality dropped. our best guess is that these providers use some form of quantization that subtly changes the model's behavior. the prompt was tuned for the full&#8209;precision model, and the quantized version did not follow it the same way.</p>
+
+            <p>switching to a different model entirely (Claude, GPT&#8209;4, Gemini) was harder still. each model has different strengths in instruction following, different ways of interpreting ambiguous prompts, different tendencies around tool calling. a prompt tuned for DeepSeek that says "never convert to IST unless the user's timezone IS IST" might be followed exactly by one model and loosely by another.</p>
+
+            <p>we eventually settled on Gemini 2.5 Flash, which gave us the best balance of cost, speed, and instruction following. it handled our existing prompt well enough that we did not have to rewrite it from scratch, but we still needed meaningful tuning to get it to the same quality level.</p>
+
+            <p>we discovered this the hard way, but it turns out to be a known problem. Cursor sends meaningfully different system prompts to GPT&#8209;5 and Claude Sonnet. Aider, the open&#8209;source coding assistant, maintains separate prompt formats per model. at the time we were building zarie (late 2025), none of these were well&#8209;documented references for us. we just learned it by running into it.</p>
+
+            <p>the takeaway: a well&#8209;tuned prompt is not portable. it is tuned for a specific model, and sometimes for a specific hosting provider. if you plan to switch models (and you should plan for it), invest in evaluation infrastructure early. we built a simple eval suite that runs test conversations and checks for specific behaviors. without it, switching models would have been guesswork.</p>
+
+            <p class="section-label">in retrospect</p>
+
+            <p>zarie's architecture is not novel. dual&#8209;agent systems, ReAct loops, and postgres&#8209;backed state are well&#8209;trodden ground. what i value most from the experience is learning where the conventional wisdom is wrong. agent frameworks add complexity that most products do not need. vector search is not the default answer for AI memory. and your prompt is more coupled to your model than you think.</p>
+
+            <p>the code is <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener" style="color: #1a1a1a;">open source</a> if you want to look at the implementation.</p>
+        </div>
+
+        <a href="../writing.html" class="back-link">back to writing</a>
+    </main>
+</body>
+</html>

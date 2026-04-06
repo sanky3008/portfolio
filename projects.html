@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sankalp phadnis · projects</title>
+    <meta name="description" content="sankalp phadnis — projects in AI, agents, and product engineering.">
+    <link rel="canonical" href="https://sankalpphadnis.com/projects.html">
+    <meta property="og:title" content="sankalp phadnis · projects">
+    <meta property="og:description" content="sankalp phadnis — projects in AI, agents, and product engineering.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sankalpphadnis.com/projects.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="sankalp phadnis · projects">
+    <meta name="twitter:description" content="sankalp phadnis — projects in AI, agents, and product engineering.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .proj {
+            margin-bottom: 4px;
+        }
+
+        .proj-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .proj-header:hover {
+            opacity: 0.55;
+        }
+
+        .proj-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .proj-name a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-name a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .proj-oneliner {
+            color: #6b6b6b;
+            font-size: 0.85rem;
+        }
+
+        .proj-right {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .proj-toggle {
+            color: #8a8580;
+            font-size: 0.85rem;
+            font-weight: 500;
+            width: 16px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .proj.open .proj-toggle {
+            transform: rotate(45deg);
+        }
+
+        .proj-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .proj.open .proj-body {
+            grid-template-rows: 1fr;
+        }
+
+        .proj-body-inner {
+            overflow: hidden;
+        }
+
+        .proj-details {
+            padding: 4px 0 12px;
+            list-style: none;
+        }
+
+        .proj-details li {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            padding: 2px 0 2px 14px;
+            position: relative;
+        }
+
+        .proj-details li::before {
+            content: '·';
+            position: absolute;
+            left: 2px;
+            color: #c0bbb7;
+        }
+
+        .proj-details li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-details li a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .proj-tech {
+            color: #9a9590;
+            font-size: 0.75rem;
+        }
+
+        .proj-links {
+            margin-bottom: 4px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .proj-links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding-bottom: 1px;
+            border-bottom: 1px solid #c0bbb7;
+            transition: border-color 0.2s ease;
+        }
+
+        .proj-links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .proj-header {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="/">home</a>
+            <a href="writing.html">writing</a>
+            <a href="projects.html" class="active">projects</a>
+            <a href="profile.html">profile</a>
+            <a href="contact.html">contact</a>
+        </div>
+
+        <hr>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">lemma</span>
+                    <span class="proj-oneliner"> · ai-native prd workspace</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://writelemma.com" target="_blank" rel="noopener">site</a>
+                    </div>
+                    <ul class="proj-details">
+                        <li>ai workspace for writing product documents. the ai reads your active document and helps edit, research the web, and generate diagrams</li>
+                        <li>"wing it" takes a topic, asks clarifying questions, searches the web for research, then writes a first draft</li>
+                        <li>in beta with 8 users and 42 docs created</li>
+                        <li><span class="proj-tech">next.js · convex · plate.js · vercel ai sdk</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">zarie</span>
+                    <span class="proj-oneliner"> · multi-agent ai assistant</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://www.zarie.chat" target="_blank" rel="noopener">site</a>
+                        <a href="https://github.com/sanky3008/zarie" target="_blank" rel="noopener">github</a>
+                        <a href="writing/building-zarie.html">writeup</a>
+                    </div>
+                    <ul class="proj-details">
+                        <li>ai assistant on telegram and slack that manages reminders, schedules, and tasks through natural language</li>
+                        <li>two-agent system: one handles user conversations, the other runs background jobs (scheduling, calendar sync, web search)</li>
+                        <li>built poirot, an internal tool to trace and debug agent behavior. scaled to 100 users</li>
+                        <li><span class="proj-tech">fastapi · postgresql · litellm · multi-agent</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">compliancegpt</span>
+                    <span class="proj-oneliner"> · rag legal chatbot for fintech</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <ul class="proj-details">
+                        <li>chatbot that answers questions about fintech compliance by searching through 15gb of rbi/sebi circulars</li>
+                        <li>built during my time at groww and deployed internally for the compliance team</li>
+                        <li><span class="proj-tech">python · langchain · rag</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">mini recursive models</span>
+                    <span class="proj-oneliner"> · trm reimplementation from scratch</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <ul class="proj-details">
+                        <li>reimplemented the <a href="https://arxiv.org/abs/2510.04871" target="_blank" rel="noopener">tiny recursive model</a> paper from scratch in pytorch</li>
+                        <li>ran 60+ ablation experiments on 4x4 sudoku reasoning, reached 94.4% accuracy</li>
+                        <li>course project for cs 7643 (deep learning) at georgia tech</li>
+                        <li><span class="proj-tech">pytorch · deep learning · ablation studies</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">today</span>
+                    <span class="proj-oneliner"> · minimalist task manager</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://apps.apple.com/us/app/today-focused-task-manager/id6744840789" target="_blank" rel="noopener">app store</a>
+                    </div>
+                    <ul class="proj-details">
+                        <li>a focused task manager that shows only what matters today. published on the app store</li>
+                        <li><span class="proj-tech">expo react native · typescript</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">hackcraft '23</span>
+                    <span class="proj-oneliner"> · ai conversational payments prototype</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://www.youtube.com/watch?v=-Xxp_50SeEU" target="_blank" rel="noopener">demo</a>
+                    </div>
+                    <ul class="proj-details">
+                        <li>won best ui among 47 teams</li>
+                        <li><span class="proj-tech">python</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function toggle(header) {
+            const proj = header.parentElement;
+            const wasOpen = proj.classList.contains('open');
+
+            document.querySelectorAll('.proj.open').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            if (!wasOpen) {
+                proj.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
