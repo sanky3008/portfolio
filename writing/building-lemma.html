@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>building (and pausing) lemma · sankalp phadnis</title>
+    <meta name="description" content="how i built an ai-native prd editor in two iterations, vibe-coded both versions in days, and why i paused.">
+    <link rel="canonical" href="https://sankalpphadnis.com/writing/building-lemma.html">
+    <meta property="og:title" content="building (and pausing) lemma · sankalp phadnis">
+    <meta property="og:description" content="how i built an ai-native prd editor in two iterations, vibe-coded both versions in days, and why i paused.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sankalpphadnis.com/writing/building-lemma.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="building (and pausing) lemma · sankalp phadnis">
+    <meta name="twitter:description" content="how i built an ai-native prd editor in two iterations, vibe-coded both versions in days, and why i paused.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2deda'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "building (and pausing) lemma",
+        "description": "how i built an ai-native prd editor in two iterations, vibe-coded both versions in days, and why i paused.",
+        "author": {
+            "@type": "Person",
+            "name": "Sankalp Phadnis",
+            "url": "https://sankalpphadnis.com"
+        }
+    }
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #e2deda;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        ::selection {
+            background: #1a1a1a;
+            color: #e2deda;
+        }
+
+        main {
+            max-width: 620px;
+            padding: 100px 24px 160px;
+            margin-left: clamp(24px, 12vw, 260px);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.01em;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .links a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .links a.active {
+            border-bottom-color: #1a1a1a;
+        }
+
+        hr {
+            border: none;
+            width: 28px;
+            height: 1px;
+            background: #c0bbb7;
+            margin: 52px 0;
+        }
+
+        .post-title {
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .post-body p {
+            color: #6b6b6b;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
+        .post-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .post-body a {
+            color: #1a1a1a;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .post-body a:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .post-body code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.76rem;
+            background: #d9d4d0;
+            padding: 1px 5px;
+            border-radius: 3px;
+        }
+
+        .post-body img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 8px 0 4px;
+            border: 1px solid #d0cbc7;
+        }
+
+        .post-body img.screenshot {
+            border: 3px solid #c0bbb7;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Insight callout */
+        .insight-box {
+            background: #d9d4d0;
+            border: 1px solid #c0bbb7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .insight-label {
+            font-size: 0.68rem;
+            color: #9a9590;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .insight-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .insight-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-marker {
+            width: 3px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .insight-marker.negative {
+            background: #1a1a1a;
+        }
+
+        .insight-marker.positive {
+            background: #9a9590;
+        }
+
+        .insight-content {
+            flex: 1;
+        }
+
+        .insight-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .insight-desc {
+            font-size: 0.64rem;
+            color: #6b6b6b;
+            line-height: 1.5;
+        }
+
+        .section-label {
+            font-weight: 600;
+            color: #1a1a1a !important;
+            font-size: 0.84rem !important;
+            margin-top: 28px !important;
+        }
+
+        .subsection-label {
+            font-weight: 500;
+            color: #4a4a4a !important;
+            font-size: 0.82rem !important;
+            margin-top: 20px !important;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #9a9590;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #9a9590;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background: #d9d4d0;
+            border: 1px solid #c0bbb7;
+            border-radius: 8px;
+            padding: 24px 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .diagram-label {
+            font-size: 0.68rem;
+            color: #9a9590;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* Architecture boxes */
+        .arch-box {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        .arch-box.dark {
+            background: #1a1a1a;
+            color: #e2deda;
+            border-color: #1a1a1a;
+        }
+
+        .arch-box.highlight {
+            border-color: #1a1a1a;
+            border-width: 1.5px;
+        }
+
+        .arch-box-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .arch-box-desc {
+            font-size: 0.64rem;
+            color: #9a9590;
+            line-height: 1.4;
+        }
+
+        .arch-box.dark .arch-box-desc {
+            color: #8a8580;
+        }
+
+        /* High level arch */
+        .high-level {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .high-level-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .high-level-row .arch-box {
+            flex: 1;
+        }
+
+        .arch-arrow {
+            display: flex;
+            justify-content: center;
+            padding: 6px 0;
+        }
+
+        /* Flowchart */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .fc-box {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 10px 16px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .fc-box.dark {
+            background: #1a1a1a;
+            color: #e2deda;
+            border-color: #1a1a1a;
+        }
+
+        .fc-box-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .fc-box-desc {
+            font-size: 0.64rem;
+            color: #9a9590;
+            line-height: 1.4;
+        }
+
+        .fc-box.dark .fc-box-desc {
+            color: #8a8580;
+        }
+
+        .fc-arrow-down {
+            display: flex;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        /* Comparison cards */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .compare-card {
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            border-radius: 6px;
+            padding: 14px 12px;
+        }
+
+        .compare-card.preferred {
+            border-color: #1a1a1a;
+            border-width: 1.5px;
+        }
+
+        .compare-card-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .compare-card-desc {
+            font-size: 0.64rem;
+            color: #6b6b6b;
+            line-height: 1.5;
+        }
+
+        .compare-card-verdict {
+            font-size: 0.62rem;
+            font-weight: 500;
+            margin-top: 8px;
+            color: #6b6b6b;
+        }
+
+        /* Evolution timeline */
+        .evolution {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .evo-step {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .evo-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .evo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            flex-shrink: 0;
+            margin-top: 12px;
+        }
+
+        .evo-line {
+            width: 1px;
+            flex: 1;
+            background: #c0bbb7;
+        }
+
+        .evo-content {
+            flex: 1;
+            padding: 8px 0 16px;
+        }
+
+        .evo-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .evo-desc {
+            font-size: 0.64rem;
+            color: #6b6b6b;
+            line-height: 1.5;
+        }
+
+        .evo-tag {
+            display: inline-block;
+            font-size: 0.56rem;
+            font-weight: 500;
+            color: #9a9590;
+            background: #e2deda;
+            border: 1px solid #c0bbb7;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 680px) {
+            main {
+                margin-left: 0;
+                padding: 56px 20px 100px;
+            }
+
+            .high-level-row {
+                flex-direction: column;
+            }
+
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fc-box {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>sankalp phadnis</h1>
+
+        <div class="links">
+            <a href="../">home</a>
+            <a href="../writing.html" class="active">writing</a>
+            <a href="../projects.html">projects</a>
+            <a href="../profile.html">profile</a>
+            <a href="../contact.html">contact</a>
+        </div>
+
+        <hr>
+
+        <div class="post-title">building (and pausing) lemma</div>
+
+        <div class="post-body">
+            <p>after <a href="building-zarie.html">pausing zarie</a>, i took one lesson with me: treat a startup as a set of experiments. start cheap. increase effort only when each experiment succeeds.</p>
+
+            <p class="section-label">the problem i saw</p>
+
+            <p>i started by watching how PMs actually write product documents. the patterns were surprisingly consistent. most people fell into one of two camps:</p>
+
+            <p>the first group lived in chatgpt. they'd go back and forth in a thread, rewriting context about their company, preferences, and product every single time they started a new document. the conversation thread was the workspace, and it was lossy. context died between sessions.</p>
+
+            <p>the second group was more technical. they used cursor or claude code, set up a directory of markdown files as their PRD library, and prompted the AI to write new <code>.md</code> files that referenced the existing ones. it worked, but an IDE is fundamentally not built for writing documents. the experience of drafting a PRD in a code editor and then exporting it for non&#8209;technical stakeholders just felt wrong.</p>
+
+            <p>both groups had the same underlying problem: AI was genuinely useful for writing product documents, but the tools they were using weren't designed for it.</p>
+
+            <p class="section-label">asking ai for the stack</p>
+
+            <p>i pitched my idea to an AI and asked it to give me SaaS companies and open&#8209;source libraries that would make building this 10x easier and my go&#8209;to&#8209;market 100x faster.</p>
+
+            <p>it pointed me to <a href="https://novel.sh" target="_blank" rel="noopener">Novel</a>, an open&#8209;source Notion&#8209;style editor built on <a href="https://tiptap.dev" target="_blank" rel="noopener">Tiptap</a>. it suggested <a href="https://clerk.com" target="_blank" rel="noopener">Clerk</a> for auth, <a href="https://platejs.org" target="_blank" rel="noopener">Plate.js</a> as a richer editor alternative, and <a href="https://www.convex.dev" target="_blank" rel="noopener">Convex</a> for a real&#8209;time backend. each of these was a lego block i could snap together instead of building from scratch. Novel gave me a full editor in a fork. Clerk gave me auth without writing a single line of auth code. Convex gave me a real&#8209;time database with zero infra.</p>
+
+            <p>normally, integrating these libraries and services into a working product would itself take a long time. reading docs, figuring out the right configuration, wiring them together. but AI handled that too. i could point it at a repo or a docs page and it would plug things together in minutes. the combination of AI finding the right blocks and AI assembling them is what made the one&#8209;day build possible.</p>
+
+            <p class="section-label">v0: the one&#8209;day electron app</p>
+
+            <p>with the stack in hand, i built the first version in a single day. i forked Novel's monorepo, added an Electron wrapper around it, and wired in an AI chat sidebar using OpenAI's GPT&#8209;4o. the entire thing was vibe&#8209;coded. i described what i wanted, the AI wrote the code, i iterated on it.</p>
+
+            <!-- V0 architecture diagram -->
+            <div class="diagram">
+                <div class="diagram-label">v0 architecture (electron desktop app)</div>
+                <div class="high-level">
+                    <div class="high-level-row">
+                        <div class="arch-box dark" style="flex: 2;">
+                            <div class="arch-box-title">electron shell</div>
+                            <div class="arch-box-desc">macOS desktop app, local file system access, IPC bridge</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">novel editor</div>
+                            <div class="arch-box-desc">tiptap&#8209;based WYSIWYG, markdown files, 15+ extensions</div>
+                        </div>
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">ai chat sidebar</div>
+                            <div class="arch-box-desc">GPT&#8209;4o, web search via tavily, document editing tools</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box">
+                            <div class="arch-box-title">local markdown files</div>
+                            <div class="arch-box-desc">file watcher, frontmatter metadata, folder navigation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <img class="screenshot" src="../lemma-v0.png" alt="lemma v0: electron app with document tree, rich text editor, and ai chat sidebar performing block-level edits">
+
+            <p>the AI wasn't just a chatbot bolted onto an editor. it had tools. it could read other documents in your library, search the web via Tavily, edit specific blocks in your document by ID, and even ask you clarifying questions through a structured UI. every document was a markdown file with annotated block IDs, so the AI could target precise sections without rewriting the whole thing.</p>
+
+            <p class="subsection-label">a detour with claude agent sdk</p>
+
+            <p>since i was already using claude code for my own PRD writing (the "second group" i described above), i tried plugging in the claude agent sdk as the AI backend for v0. same harness that powers claude code, open source, and everything was local anyway, so it seemed like a simple swap.</p>
+
+            <p>it didn't work well. the agent sdk is an open, general&#8209;purpose harness. it's not opinionated about what the AI should do with a document. my hand&#8209;rolled integration with a specific system prompt, constrained tool set, and block&#8209;level editing instructions gave noticeably better answers. and the sdk burned through tokens at a rate that made no sense for a product where users would be chatting with the AI dozens of times per session.</p>
+
+            <!-- SDK insight -->
+            <div class="insight-box">
+                <div class="insight-label">open harness vs opinionated integration</div>
+                <div class="insight-row">
+                    <div class="insight-marker negative"></div>
+                    <div class="insight-content">
+                        <div class="insight-title">claude agent sdk</div>
+                        <div class="insight-desc">general&#8209;purpose, open&#8209;ended. good for broad tasks. high token usage per interaction, answers less focused on document editing.</div>
+                    </div>
+                </div>
+                <div class="insight-row">
+                    <div class="insight-marker positive"></div>
+                    <div class="insight-content">
+                        <div class="insight-title">custom system prompt + constrained tools</div>
+                        <div class="insight-desc">opinionated about the task. five specific tools, block&#8209;level editing, workspace context injected into every call. lower token usage, better answers.</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>the lesson: a general&#8209;purpose AI harness optimizes for flexibility. a product needs to optimize for the specific thing the user is trying to do. the constraints are the product.</p>
+
+            <p>i shared it with five people, flatmates and PM friends, as a raw <code>.dmg</code> over WhatsApp.</p>
+
+            <p>they used it more than i expected. people were actually writing PRDs in it, not just trying it once and forgetting. that was enough signal to invest more.</p>
+
+            <p class="section-label">v1: shifting to web</p>
+
+            <p>the Electron app worked, but distribution was painful. every update meant building a new <code>.dmg</code>, sending it manually, and hoping people replaced the old one. macOS Gatekeeper warnings scared off non&#8209;technical users. i spent more time on distribution than on the product itself.</p>
+
+            <p>so i rebuilt from scratch on the web. different editor, different backend, different everything.</p>
+
+            <!-- V1 architecture diagram -->
+            <div class="diagram">
+                <div class="diagram-label">v1 architecture (web app)</div>
+                <div class="high-level">
+                    <div class="high-level-row">
+                        <div class="arch-box dark" style="flex: 2;">
+                            <div class="arch-box-title">next.js on vercel</div>
+                            <div class="arch-box-desc">app router, edge functions, streaming AI responses</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">plate.js editor</div>
+                            <div class="arch-box-desc">slate&#8209;based, 40+ plugins, comments, suggestions, slash commands</div>
+                        </div>
+                        <div class="arch-box highlight">
+                            <div class="arch-box-title">ai chat + wing it</div>
+                            <div class="arch-box-desc">GPT&#8209;5.1, tool use, 3&#8209;step document generation</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">
+                        <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="2" x2="6" y2="18" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 22 L3 17 L9 17 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="high-level-row">
+                        <div class="arch-box">
+                            <div class="arch-box-title">convex</div>
+                            <div class="arch-box-desc">real&#8209;time database, serverless functions, subscriptions</div>
+                        </div>
+                        <div class="arch-box">
+                            <div class="arch-box-title">clerk</div>
+                            <div class="arch-box-desc">authentication, user management, JWT tokens</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <img class="screenshot" src="../lemma-v1.png" alt="lemma v1: web app with plate.js editor, document sidebar, and ai chat panel">
+
+            <p>i switched from Novel/Tiptap to <a href="https://platejs.org" target="_blank" rel="noopener">Plate.js</a>, a Slate&#8209;based editor with a much richer plugin ecosystem. comments, suggestions, track changes, slash commands, tables, code blocks, mermaid diagrams, math equations. all built in. the editor went from a decent markdown editor to something that felt closer to Notion or Google Docs.</p>
+
+            <p>Convex replaced the local file system. documents lived in a real&#8209;time database with subscriptions, so changes synced instantly. Clerk handled auth, which meant i could share a URL instead of a <code>.dmg</code>. the whole v1 was also vibe&#8209;coded.</p>
+
+            <p>i didn't build everything at once. i started with the core editor and AI chat, deployed it, and then added features based on how people actually used the product. i was dogfooding it myself for my own PRDs, and watching what my friends did with it. wing it, for example, came much later, after i noticed people kept starting documents from scratch instead of iterating on existing ones.</p>
+
+            <!-- Comparison: v0 vs v1 -->
+            <div class="diagram">
+                <div class="diagram-label">v0 vs v1</div>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-card-title">v0: electron + novel</div>
+                        <div class="compare-card-desc">desktop app. local markdown files. manual distribution via .dmg. tiptap&#8209;based editor. GPT&#8209;4o. 5 users.</div>
+                        <div class="compare-card-verdict">proved the idea</div>
+                    </div>
+                    <div class="compare-card preferred">
+                        <div class="compare-card-title">v1: next.js + plate.js</div>
+                        <div class="compare-card-desc">web app. convex real&#8209;time DB. clerk auth. 40+ editor plugins. GPT&#8209;5.1. wing it mode. 8 users, 42 docs.</div>
+                        <div class="compare-card-verdict">shipped product</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="section-label">the ai integration</p>
+
+            <p>the AI was wired into the editor, not bolted on as a sidebar. the system prompt was dynamically built from your workspace context: your active document (serialized as XML with inline comments), a global context document (company info, writing preferences), your directory tree, and related documents.</p>
+
+            <p>the AI had five tools: <code>webSearch</code> for real&#8209;time research via Tavily, <code>extractContent</code> for pulling text from URLs, <code>readPage</code> for reading other workspace documents, <code>editDocument</code> for making targeted edits to specific blocks, and <code>askQuestion</code> for gathering structured input from the user. edits happened at the block level. each paragraph, heading, and list item had a unique ID, so the AI could replace, insert, or delete specific blocks without touching the rest of the document.</p>
+
+            <p class="subsection-label">wing it</p>
+
+            <p>the feature i'm most proud of is "wing it." you give it a topic, it asks 6&#8209;9 quick multiple&#8209;choice questions to understand what you want, then it takes over: researches the ecosystem via web search, reads your existing context documents, and writes a full PRD. the whole thing runs as a 3&#8209;step server&#8209;sent events pipeline.</p>
+
+            <!-- Wing It pipeline diagram -->
+            <div class="diagram">
+                <div class="diagram-label">wing it pipeline</div>
+                <div class="flowchart">
+                    <div class="fc-box">
+                        <div class="fc-box-title">questioning</div>
+                        <div class="fc-box-desc">AI generates 2&#8209;3 MCQ questions at a time. user answers. repeats until 6&#8209;9 questions are covered.</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box dark">
+                        <div class="fc-box-title">research</div>
+                        <div class="fc-box-desc">AI uses web search, URL extraction, and document reading tools. builds an internal scratchpad of findings.</div>
+                    </div>
+                    <div class="fc-arrow-down">
+                        <svg width="12" height="20" viewBox="0 0 12 20"><line x1="6" y1="0" x2="6" y2="14" stroke="#c0bbb7" stroke-width="1.2"/><path d="M6 18 L3 13 L9 13 Z" fill="#c0bbb7"/></svg>
+                    </div>
+                    <div class="fc-box">
+                        <div class="fc-box-title">writing</div>
+                        <div class="fc-box-desc">AI generates the full document. no tools, pure generation from accumulated context. streamed back as markdown.</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>the research step is the slow one. i <a href="wing-it.html">added a chrome dino game</a> to the loading screen so people had something to do while waiting.</p>
+
+            <img src="../wing-it.png" alt="wing it mode researching with dino game loading screen">
+
+            <p class="section-label">vibe coding</p>
+
+            <p>both versions were almost entirely vibe&#8209;coded. i didn't write the Electron IPC bridge by hand, or manually configure 40 Plate.js plugins, or set up the Convex schema. i described what i wanted, the AI wrote the code, i tested it, we iterated.</p>
+
+            <p>that's the thing that made lemma possible as a solo builder. the Electron app took one day. the full web app took about a week. without vibe coding, each version would have taken weeks to months. the real unlock wasn't speed, it was that i could explore ideas that would have been too expensive to try otherwise. i could afford to throw away v0 and rebuild from scratch because building it cost almost nothing.</p>
+
+            <p>when building is that cheap, you can treat each version as disposable. the electron app wasn't a sunk cost. it was a cheap probe that told me the idea had legs. v1 was a new experiment informed by the first one.</p>
+
+            <p class="section-label">why i paused</p>
+
+            <p>lemma got to 8 users and 42 documents. people used it and wing it genuinely saved time. but two things became clear.</p>
+
+            <p>first, differentiation. Notion, Coda, Google Docs were all shipping AI features fast. the moat i thought i had (deep AI integration into the editor) was shrinking by the week. what i built in days, they shipped to millions. competing on editor features against teams of hundreds was not a fight i could win.</p>
+
+            <p>second, i was <a href="two-runways.html">burnt out</a>. i'd gone from zarie to lemma without a real break. the energy runway was low. i was still shipping, but the quality of my decisions was degrading. i was over&#8209;engineering features instead of talking to users, and spending more time questioning the path than enjoying the work.</p>
+
+            <p>so i paused. the <a href="https://github.com/sanky3008/lemma" target="_blank" rel="noopener">code is on github</a> if you want to look at the implementation.</p>
+
+            <p class="section-label">what i took away</p>
+
+            <p>the one&#8209;day Electron app told me more about demand than any amount of market research would have. asking AI for the stack saved days of googling. vibe coding let me build two complete products in the time it would have taken to build one feature the traditional way.</p>
+
+            <p>the experiment framework from zarie carried over well. v0 was a one&#8209;day bet. it worked, so v1 got a week. v1 worked technically but the market signal was unclear and my energy was gone. so i paused instead of pushing. that felt right.</p>
+        </div>
+
+        <a href="../writing.html" class="back-link">back to writing</a>
+
+        <footer style="margin-top: 80px; color: #c0bbb7; font-size: 0.7rem;">
+            built with mass vibe-coding by claude
+        </footer>
+    </main>
+</body>
+</html>
