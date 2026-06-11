@@ -220,6 +220,15 @@
             border-bottom-color: #1a1a1a;
         }
 
+        .proj-shot {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 1px solid #c0bbb7;
+            border-radius: 4px;
+            margin: 8px 0 4px;
+        }
+
         @media (max-width: 680px) {
             main {
                 margin-left: 0;
@@ -297,6 +306,84 @@
                         <li>two-agent system: one handles user conversations, the other runs background jobs (scheduling, calendar sync, web search)</li>
                         <li>built poirot, an internal tool to trace and debug agent behavior. scaled to 100 users</li>
                         <li><span class="proj-tech">fastapi · postgresql · litellm · multi-agent</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">run log</span>
+                    <span class="proj-oneliner"> · pokémon-style running tracker</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://web-production-b8290.up.railway.app/" target="_blank" rel="noopener">site</a>
+                        <a href="https://github.com/sanky3008/run-log" target="_blank" rel="noopener">github</a>
+                    </div>
+                    <img class="proj-shot" src="run-log.png" alt="run log — pokémon-style trainer card and run journal" loading="lazy">
+                    <ul class="proj-details">
+                        <li>a training log styled like a pokémon game — trainer card, levels, hp-style recovery bars, and earnable records</li>
+                        <li>runs sync automatically from whoop via webhooks, joined with recovery and sleep data for each run</li>
+                        <li>trends and records pages built on weekly summaries, hr zones, and pace/efficiency analytics</li>
+                        <li><span class="proj-tech">next.js · postgresql · drizzle · whoop api</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">artifact</span>
+                    <span class="proj-oneliner"> · self-hosted html prototype sharing</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://github.com/sanky3008/artifact" target="_blank" rel="noopener">github</a>
+                    </div>
+                    <img class="proj-shot" src="artifact.png" alt="artifact — folder explorer with uploaded html prototypes" loading="lazy">
+                    <ul class="proj-details">
+                        <li>tiny self-hosted file sharing app for html prototypes — upload, organise into folders, share a clean public link</li>
+                        <li>password or domain-restricted google sign-in for admin; public links need no auth</li>
+                        <li>built as a lightweight alternative to vercel/netlify when all you want is a stable url to send someone</li>
+                        <li><span class="proj-tech">fastapi · react · typescript · docker</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="proj">
+            <div class="proj-header" onclick="toggle(this)">
+                <div>
+                    <span class="proj-name">whoop mcp</span>
+                    <span class="proj-oneliner"> · mcp server for whoop biometrics</span>
+                </div>
+                <div class="proj-right">
+                    <span class="proj-toggle">+</span>
+                </div>
+            </div>
+            <div class="proj-body">
+                <div class="proj-body-inner">
+                    <div class="proj-links">
+                        <a href="https://github.com/sanky3008/sanky-whoop-mcp" target="_blank" rel="noopener">github</a>
+                    </div>
+                    <ul class="proj-details">
+                        <li>remote mcp server that connects claude to the whoop api — 13 read-only tools for recovery, sleep, strain, and workouts</li>
+                        <li>proper oauth 2.1 + pkce flow with dynamic client registration — click connect, log in to whoop, done</li>
+                        <li>encrypted token store survives redeploys; no biometric data is persisted, everything fetches live</li>
+                        <li><span class="proj-tech">python · fastmcp · oauth 2.1 · railway</span></li>
                     </ul>
                 </div>
             </div>
