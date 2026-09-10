@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="index, follow" />
   <title>Sankalp Phadnis | Resume</title>
+  <link rel="canonical" href="https://www.sankalpphadnis.com/resume" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -22,7 +23,8 @@
 
     html {
       width: 210mm;
-      height: 297mm;
+      min-height: 297mm;
+      height: auto;
     }
 
     body {
@@ -32,10 +34,11 @@
       font-size: 8.6pt;
       line-height: 1.5;
       width: 210mm;
-      height: 297mm;
+      min-height: 297mm;
+      height: auto;
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      overflow: visible;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       -webkit-print-color-adjust: exact;
@@ -44,11 +47,12 @@
 
     .page {
       width: 210mm;
-      height: 297mm;
+      min-height: 297mm;
+      height: auto;
       padding: 16mm 20mm 8mm 20mm;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow: visible;
     }
 
     /* ── header ── */
@@ -318,17 +322,36 @@
     @media print {
       html, body {
         width: 210mm;
-        height: 297mm;
+        min-height: 297mm;
+        height: auto;
         margin: 0;
         padding: 0;
-        overflow: hidden;
+        overflow: visible;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
 
       .page {
-        page-break-after: avoid;
-        page-break-inside: avoid;
+        display: block;
+        min-height: 0;
+      }
+
+      .entry, .section-title {
+        break-inside: avoid;
+      }
+
+      .section-title {
+        break-after: avoid;
+      }
+    }
+
+    @media screen and (max-width: 794px) {
+      html, body, .page {
+        width: 100%;
+      }
+
+      .page {
+        padding: 24px 20px;
       }
     }
 
@@ -389,6 +412,25 @@
     <!-- experience -->
     <div class="section">
       <div class="section-title">Experience</div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Curium</div>
+          <div class="entry-meta">2026-Present</div>
+        </div>
+        <div class="sub-role">
+          <div class="sub-role-header">
+            <div class="sub-role-title">Member of Technical Staff</div>
+          </div>
+          <ul>
+            <li>Reduced onboarding research bias by 74% in a paired-brand evaluation through topic research and filtering improvements</li>
+            <li>Helped build an autonomous content generation pipeline that follows each brand’s voice</li>
+            <li>Identified tenets of effective GEO articles and built agents that recommend refreshes against them</li>
+            <li>Built a general-purpose pipeline to scrape web pages where access is permitted</li>
+            <li>Developed an autonomous research agent that identifies gaps in a brand’s GEO presence and creates tailored sales decks</li>
+          </ul>
+        </div>
+      </div>
 
       <div class="entry">
         <div class="entry-header">
